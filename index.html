@@ -28,6 +28,12 @@
               <div class="bar-text">HP&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</div>
             </div>
           </div>
+
+          <div class="experience-bar">
+              <div class="current-stat" :style="xpSize">
+                  <div class="bar-text">XP&nbsp;{{xpCurrent}}/{{xpGoalCurrent}}</div>
+                </div>
+          </div>
      
           <div class="strength stat bar">
             <div class="current-stat" :style="strSize">
@@ -83,20 +89,47 @@
     el: '.sheet-container',
     data: {
       characterName: 'Placeholder Name',
+      level: 3,
       hitPointsCurrent: 60,
       hitPointsMaximum: 60,
+      xpTotal: 1500,
       strength: 13,
       dexterity: 17,
       constitution: 12,
       intelligence: 14,
       wisdom: 10,
       charisma: 14,
+      levelRequirements: {
+        '1': 0,
+        '2': 300,
+        '3': 900,
+        '4': 2700,
+        '5': 6500,
+        '6': 14000,
+        '7': 23000,
+        '8': 34000,
+        '9': 48000,
+        '10': 64000,
+        '11': 85000,
+        '12': 100000,
+        '13': 120000,
+        '14': 140000,
+        '15': 165000,
+        '16': 195000,
+        '17': 225000,
+        '18': 265000,
+        '19': 305000,
+        '20': 335000
+      }
     },
 
     computed: {
       // Caculating Bar Size
       hpSize: function () {
         return {width: String((this.hitPointsCurrent / this.hitPointsMaximum) * 100) + '%'}
+      },
+      xpSize: function () {
+        return {width: String((this.xpCurrent / this.xpGoalCurrent) * 100) + '%'}
       },
       strSize: function () {
         return {width: String((this.strength / 20) * 100) + '%'}
@@ -117,6 +150,18 @@
         return {width: String((this.charisma / 20) * 100) + '%'}
       },
       // -----
+      xpCurrent: function () {
+        return this.xpTotal - this.xpThisLevel
+      },
+      xpGoalCurrent: function () {
+        return this.xpNextLevel - this.xpThisLevel
+      },
+      xpThisLevel: function () {
+        return this.levelRequirements[String(this.level)]
+      },
+      xpNextLevel: function () {
+        return this.levelRequirements[String(this.level+1)]
+      }
     },
 
     methods: {
@@ -180,8 +225,22 @@
     border: 1px solid whitesmoke;
   }
 
+  .hit-points {
+    margin-bottom: 0;
+  }
+
+  .experience-bar {
+    margin: 0 10px 10px 10px;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
+    border-top: none;
+  }
+
+  .experience-bar .current-stat {
+    background: linear-gradient(to right, #ff7300 , #ffee00);
+  }
+
   .bar .current-stat {
-    background-color: #1cc613;
     background: linear-gradient(to right, #1cc613 , #0e9255);
   }
 
