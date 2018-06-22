@@ -15,9 +15,9 @@
         <i class="fab fa-d-and-d"></i>
       &nbsp;{{characterName}}</div>
     <div class="top-container">
-      <div class="character-image" @click="healDamage(1)">
+      <div class="character-image" @click="healDamage(5)">
       </div>
-      <div class="character-image" @click="takeDamage(1)">
+      <div class="character-image" @click="takeDamage(5)">
       </div>
 
       <div class="main-stats">
@@ -240,7 +240,7 @@
     background: linear-gradient(to right, #ff7300 , #ffee00);
   }
 
-  .bar .current-stat {
+  .hit-points .current-stat {
     background: linear-gradient(to right, #1cc613 , #0e9255);
   }
 
