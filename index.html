@@ -4,6 +4,213 @@
   <title>CharSheet</title>
 </head>
 <body>
+  <div class="background">
 
+    <div class="sheet-container">
+    
+      <div class="character-name">{{characterName}}</div>
+      <div class="top-container">
+        <div class="character-image" @click="healDamage(1)"></div>
+        <div class="character-image" @click="takeDamage(1)"></div>
+        <div class="main-stats">
+          <div class="main-bars">
+     
+            <div class="hit-points bar">
+              <div class="current-stat" :style="calcHpSize()">
+                <div class="bar-text">HP&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</div>
+              </div>
+            </div>
+       
+            <div class="strength stat bar">
+              <div class="current-stat" :style="calcStrSize()">
+                <div class="bar-text">STR&nbsp;<b>{{strength}}</b></div>
+              </div>
+            </div>
+            <div class="dexterity stat bar">
+              <div class="current-stat" :style="calcDexSize()">
+                <div class="bar-text">DEX&nbsp;<b>{{dexterity}}</b></div>
+              </div>
+            </div>
+            <div class="constitution stat bar">
+              <div class="current-stat" :style="calcConSize()">
+                <div class="bar-text">CON&nbsp;<b>{{constitution}}</b></div>
+              </div>
+            </div>
+            <div class="intelligence stat bar">
+              <div class="current-stat" :style="calcIntSize()">
+                <div class="bar-text">INT&nbsp;<b>{{intelligence}}</b></div>
+              </div>
+            </div>
+            <div class="wisdom stat bar">
+              <div class="current-stat" :style="calcWisSize()">
+                <div class="bar-text">WIS&nbsp;<b>{{wisdom}}</b></div>
+              </div>
+            </div>
+            <div class="charisma stat bar">
+              <div class="current-stat" :style="calcChaSize()">
+                <div class="bar-text">CHA&nbsp;<b>{{charisma}}</b></div>
+              </div>
+            </div>
+     
+          </div>
+          <div></div>
+        </div>
+      </div>
+        <div class="mid-container">
+        </div>
+        <div class="bot-container">   
+        </div>  
+      </div>    
+    </div>
+  </div>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+<script>
+
+  var app = new Vue({
+    el: '.sheet-container',
+    data: {
+      characterName: 'Placeholder Name',
+      hitPointsCurrent: 60,
+      hitPointsMaximum: 60,
+      hpSize: {},
+      strength: 13,
+      strSize: {},
+      dexterity: 17,
+      dexSize: {},
+      constitution: 12,
+      conSize: {},
+      intelligence: 14,
+      intSize: {},
+      wisdom: 10,
+      wisSize: {},
+      charisma: 14,
+      chaSize: {}
+    },
+
+    methods: {
+      // Calculating Bar Size
+      calcHpSize: function () {
+        this.hpSize = {width: String((this.hitPointsCurrent / this.hitPointsMaximum) * 100) + '%'}
+        return this.hpSize
+      },
+      calcStrSize: function () {
+        this.strSize = {width: String((this.strength / 20) * 100) + '%'}
+        return this.strSize
+      },
+      calcDexSize: function () {
+        this.dexSize = {width: String((this.dexterity / 20) * 100) + '%'}
+        return this.dexSize
+      },
+      calcConSize: function () {
+        this.conSize = {width: String((this.constitution / 20) * 100) + '%'}
+        return this.conSize
+      },
+      calcIntSize: function () {
+        this.intSize = {width: String((this.intelligence / 20) * 100) + '%'}
+        return this.intSize
+      },
+      calcWisSize: function () {
+        this.wisSize = {width: String((this.wisdom / 20) * 100) + '%'}
+        return this.wisSize
+      },
+      calcChaSize: function () {
+        this.chaSize = {width: String((this.charisma / 20) * 100) + '%'}
+        return this.chaSize
+      },
+      // -----
+      healDamage: function (value) {
+        var newHp = this.hitPointsCurrent + value
+        if (newHp <= this.hitPointsMaximum) {
+          this.hitPointsCurrent = newHp
+        } else {
+          return console.log('too high')
+        }
+      },
+      takeDamage: function (value) {
+        var newHp = this.hitPointsCurrent - value
+        if (newHp >= 0) {
+          this.hitPointsCurrent = newHp
+        } else {
+          return console.log('too low')
+        }
+      }
+    }
+  })
+</script>
+
+<style lang="css">
+
+  .background {
+    background: linear-gradient(to bottom, #4e6b8a 0%,#245080 52%);
+  }
+
+
+  .sheet-container {
+    /* height: 100vh;
+    width: 100vw; */
+    display: flex;
+    flex-direction: column;
+    padding: 5vh 5vw;
+  }
+
+  .character-name {
+    font-size: 1.5rem;
+    color: whitesmoke;
+  }
+
+  .top-container {
+    display: flex;
+  }
+
+  .character-image {
+    margin: 20px;
+    min-height: 125px;
+    min-width: 125px;
+    background-color: #5f5f5f;
+    border: 3px double whitesmoke;
+  }
+
+  .bar {
+    height: 35px;
+    width: 40vw;
+    margin: 0 10px 10px 10px;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
+  }
+
+  .bar .current-stat {
+    background-color: #1cc613;
+    background: linear-gradient(to right, #1cc613 , #0e9255);
+  }
+
+  .stat .current-stat {
+    background: linear-gradient(to right, #7A2A90 , #31a3c5);
+  }
+
+  .current-stat {
+    width: 90%;
+    height: 100%;
+    color: whitesmoke;
+    line-height: 90%;
+    font-size: 0.8rem;
+  }
+
+  .bar-text {
+    padding-top: 4px;
+    padding-left: 4px;
+  }
+
+  .mid-container {
+    display: flex;
+  }
+
+  .bot-container {
+    display: flex;
+  }
+
+</style>
+
 </html>
