@@ -13,62 +13,72 @@
 
   <div class="sheet-container">
   
-    <div class="character-name">
-        <i class="fab fa-d-and-d"></i>
-      &nbsp;{{characterName}}</div>
+    <div class="character-name">{{characterName}}<br/>Level:&nbsp;{{level}}</div>
+
     <div class="top-container">
-      <div class="character-image" @click="healDamage(5)">
-      </div>
-      <div class="character-image" @click="takeDamage(5)">
-      </div>
 
-      <div class="main-stats">
-        <div class="main-bars">
-   
-          <div class="hit-points bar">
-            <div class="current-stat" :style="hpSize">
-              <div class="bar-text">HP&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</div>
-            </div>
-          </div>
+      <div class="image-main-stats">
 
-          <div class="experience-bar">
-              <div class="current-stat" :style="xpSize">
-                  <div class="bar-text">XP&nbsp;{{xpCurrent}}/{{xpGoalCurrent}}</div>
-                </div>
-          </div>
-     
+        <div class="character-image">
+          <div class="character-image-border"></div>
+          <img src="ClarenceVeluuthra.png" alt="portrait image">
+        </div>
+
+        <div class="main-stats">
+
           <div class="strength stat bar">
             <div class="current-stat" :style="strSize">
-              <div class="bar-text">STR&nbsp;<b>{{strength}}</b></div>
+              <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
             </div>
           </div>
           <div class="dexterity stat bar">
             <div class="current-stat" :style="dexSize">
-              <div class="bar-text">DEX&nbsp;<b>{{dexterity}}</b></div>
+              <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
             </div>
           </div>
           <div class="constitution stat bar">
             <div class="current-stat" :style="conSize">
-              <div class="bar-text">CON&nbsp;<b>{{constitution}}</b></div>
+              <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
             </div>
           </div>
           <div class="intelligence stat bar">
             <div class="current-stat" :style="intSize">
-              <div class="bar-text">INT&nbsp;<b>{{intelligence}}</b></div>
+              <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
             </div>
           </div>
           <div class="wisdom stat bar">
             <div class="current-stat" :style="wisSize">
-              <div class="bar-text">WIS&nbsp;<b>{{wisdom}}</b></div>
+              <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
             </div>
           </div>
           <div class="charisma stat bar">
             <div class="current-stat" :style="chaSize">
-              <div class="bar-text">CHA&nbsp;<b>{{charisma}}</b></div>
+              <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
             </div>
           </div>
-   
+    
         </div>
+
+      </div>
+
+      <div class="lower-bars">
+
+        <div class="hit-points-bar">
+            <div class="current-stat" :style="hpSize">
+              <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
+              <span class="add-or-subtract">
+                <i class="fas fa-plus-circle"></i>
+                <i class="fas fa-minus-circle"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="experience-bar">
+            <div class="current-stat" :style="xpSize">
+              <span class="xp-bar-text"><b>XP</b>&nbsp;{{xpCurrent}}/{{xpGoalCurrent}}</span>
+            </div>
+          </div>
+
       </div>
 
     </div>
@@ -90,17 +100,17 @@
   var app = new Vue({
     el: '.sheet-container',
     data: {
-      characterName: 'Placeholder Name',
-      level: 3,
-      hitPointsCurrent: 60,
-      hitPointsMaximum: 60,
-      xpTotal: 1500,
-      strength: 13,
-      dexterity: 17,
+      characterName: 'Clarence Veluuthra',
+      level: 11,
+      hitPointsCurrent: 54,
+      hitPointsMaximum: 54,
+      xpTotal: 85000,
+      strength: 14,
+      dexterity: 20,
       constitution: 12,
-      intelligence: 14,
+      intelligence: 15,
       wisdom: 10,
-      charisma: 14,
+      charisma: 8,
       levelRequirements: {
         '1': 0,
         '2': 300,
@@ -189,7 +199,10 @@
 
 <style lang="css">
 
+/* General */
+
   html {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     height: 100%;
     background-size: cover;
     background: #245080;
@@ -207,34 +220,82 @@
     color: whitesmoke;
   }
 
+  .btn {
+
+  }
+
+/* Top Container */
   .top-container {
+    display: flex;
+    flex-direction: column
+  }
+
+  .image-main-stats {
     display: flex;
   }
 
+  .main-stats {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .character-image {
-    margin: 20px;
-    min-height: 125px;
-    min-width: 125px;
-    background-color: #5f5f5f;
-    border: 3px double whitesmoke;
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px 20px 20px 0;
+    background-color: #c7ab6f;
+    border: 8px double #42280059;
+    border-radius: 100%;
     /* border-image-source: url(test-border.png);
     border-image-slice: 200;  */
   }
 
+  .character-image-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    box-shadow: inset 0 0 30px #000000;
+    z-index: 999;
+  }
+
+  .character-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+  }
+
+  .hp-button {
+    align-self: center;
+    display: inline-block;
+    background-color: #4e6b8a;
+    width: 50%;
+    height: 10%;
+    margin: 10px;
+    border-radius: 10%;
+  }
+
   .bar {
     height: 35px;
-    width: 40vw;
     margin: 0 10px 10px 10px;
     background-color: #5f5f5f;
     border: 1px solid whitesmoke;
   }
 
-  .hit-points {
+  .hit-points-bar {
+    height: 35px;
     margin-bottom: 0;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
   }
 
   .experience-bar {
-    margin: 0 10px 10px 10px;
     background-color: #5f5f5f;
     border: 1px solid whitesmoke;
     border-top: none;
@@ -244,7 +305,7 @@
     background: linear-gradient(to right, #ff7300 , #ffee00);
   }
 
-  .hit-points .current-stat {
+  .hit-points-bar .current-stat {
     background: linear-gradient(to right, #1cc613 , #0e9255);
   }
 
@@ -256,13 +317,16 @@
     width: 90%;
     height: 100%;
     color: whitesmoke;
-    line-height: 90%;
-    font-size: 0.8rem;
   }
 
   .bar-text {
-    padding-top: 4px;
-    padding-left: 4px;
+    vertical-align: middle;
+    line-height: 35px;
+    padding-left: 5px;
+  }
+
+  .xp-bar-text {
+    padding: 4px;
   }
 
   .mid-container {
