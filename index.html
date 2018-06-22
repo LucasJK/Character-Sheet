@@ -11,48 +11,50 @@
     <div class="top-container">
       <div class="character-image" @click="healDamage(1)"></div>
       <div class="character-image" @click="takeDamage(1)"></div>
+
       <div class="main-stats">
         <div class="main-bars">
    
           <div class="hit-points bar">
-            <div class="current-stat" :style="calcHpSize">
+            <div class="current-stat" :style="hpSize">
               <div class="bar-text">HP&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</div>
             </div>
           </div>
      
           <div class="strength stat bar">
-            <div class="current-stat" :style="calcStrSize">
+            <div class="current-stat" :style="strSize">
               <div class="bar-text">STR&nbsp;<b>{{strength}}</b></div>
             </div>
           </div>
           <div class="dexterity stat bar">
-            <div class="current-stat" :style="calcDexSize">
+            <div class="current-stat" :style="dexSize">
               <div class="bar-text">DEX&nbsp;<b>{{dexterity}}</b></div>
             </div>
           </div>
           <div class="constitution stat bar">
-            <div class="current-stat" :style="calcConSize">
+            <div class="current-stat" :style="conSize">
               <div class="bar-text">CON&nbsp;<b>{{constitution}}</b></div>
             </div>
           </div>
           <div class="intelligence stat bar">
-            <div class="current-stat" :style="calcIntSize">
+            <div class="current-stat" :style="intSize">
               <div class="bar-text">INT&nbsp;<b>{{intelligence}}</b></div>
             </div>
           </div>
           <div class="wisdom stat bar">
-            <div class="current-stat" :style="calcWisSize">
+            <div class="current-stat" :style="wisSize">
               <div class="bar-text">WIS&nbsp;<b>{{wisdom}}</b></div>
             </div>
           </div>
           <div class="charisma stat bar">
-            <div class="current-stat" :style="calcChaSize">
+            <div class="current-stat" :style="chaSize">
               <div class="bar-text">CHA&nbsp;<b>{{charisma}}</b></div>
             </div>
           </div>
    
         </div>
       </div>
+
     </div>
 
       <div class="mid-container">
@@ -75,42 +77,35 @@
       characterName: 'Placeholder Name',
       hitPointsCurrent: 60,
       hitPointsMaximum: 60,
-      // hpSize: {},
       strength: 13,
-      strSize: {},
       dexterity: 17,
-      dexSize: {},
       constitution: 12,
-      conSize: {},
       intelligence: 14,
-      intSize: {},
       wisdom: 10,
-      wisSize: {},
       charisma: 14,
-      chaSize: {}
     },
 
     computed: {
-      // Calculating Bar Size
-      calcHpSize: function () {
+      // Caculating Bar Size
+      hpSize: function () {
         return {width: String((this.hitPointsCurrent / this.hitPointsMaximum) * 100) + '%'}
       },
-      calcStrSize: function () {
+      strSize: function () {
         return {width: String((this.strength / 20) * 100) + '%'}
       },
-      calcDexSize: function () {
+      dexSize: function () {
         return {width: String((this.dexterity / 20) * 100) + '%'}
       },
-      calcConSize: function () {
+      conSize: function () {
         return {width: String((this.constitution / 20) * 100) + '%'}
       },
-      calcIntSize: function () {
+      intSize: function () {
         return {width: String((this.intelligence / 20) * 100) + '%'}
       },
-      calcWisSize: function () {
+      wisSize: function () {
         return {width: String((this.wisdom / 20) * 100) + '%'}
       },
-      calcChaSize: function () {
+      chaSize: function () {
         return {width: String((this.charisma / 20) * 100) + '%'}
       },
       // -----
