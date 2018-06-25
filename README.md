@@ -8,6 +8,8 @@ Potential Feature List:
 - keeps track of concentration spells
 - keeps track of spell slots
 
+- use potion button
+
 - at a glance reference material "what does Darkness do?" etc.
 
 - calculates damage dice
@@ -24,6 +26,8 @@ Potential Feature List:
 - character generator
 
 - google drive functionality
+
+- DM mode (keeping track of multiple monsters)
 
 - roll20 integration???
 
