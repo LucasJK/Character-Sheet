@@ -25,10 +25,10 @@
                 <i class="fas fa-flask">  
                 <div class="potion-select">
                   <div v-if=showPotions class="dropdown-content">
-                    <a @click="drinkPotion">Lesser</a>
-                    <a @click="drinkPotion('Greater')">Greater</a>
-                    <a @click="drinkPotion('Superior')">Superior</a>
-                    <a @click="drinkPotion('Supreme')">Supreme</a>
+                    <a class="drink-lesser" @click="drinkPotion">Lesser</a>
+                    <a class="drink-greater" @click="drinkPotion('Greater')">Greater</a>
+                    <a class="drink-superior" @click="drinkPotion('Superior')">Superior</a>
+                    <a class="drink-supreme" @click="drinkPotion('Supreme')">Supreme</a>
                   </div>
                 </div>
               </i>                
@@ -81,6 +81,7 @@
             <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
             <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
           </span>
+          <span class="hp-added">+{{potRoll}}</span>
           <div class="current-stat" :style="hpSize">
             <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
           </div>
@@ -147,9 +148,9 @@
         '19': 305000,
         '20': 335000
       },
-      showPotions: false
+      showPotions: false,
+      potRoll: 0
     },
-
     computed: {
       // Caculating Bar Size
       hpSize: function () {
@@ -239,7 +240,6 @@
       },
       // -----
     },
-
     methods: {
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
@@ -264,22 +264,23 @@
       },
       drinkPotion: function (size) {
         if (size === 'Greater') {
-          roll = rollDie('4d4+4')
-          this.healDamage(roll)
-          console.log(roll)
+          this.potRoll = rollDie('4d4+4')
+          this.healDamage(this.potRoll)
+          console.log(this.potRoll)
         } else if (size === 'Superior') {
-          roll = rollDie('8d4+8')
-          this.healDamage(roll)
-          console.log(roll)
+          this.potRoll = rollDie('8d4+8')
+          this.healDamage(this.potRoll)
+          console.log(this.potRoll)
         } else if (size === 'Supreme') {
-          roll = rollDie('10d4+20')
-          this.healDamage(roll)
-          console.log(roll)
+          this.potRoll = rollDie('10d4+20')
+          this.healDamage(this.potRoll)
+          console.log(this.potRoll)
         } else {
-          roll = rollDie('2d4+2')
-          this.healDamage(roll)
-          console.log(roll)
+          this.potRoll = rollDie('2d4+2')
+          this.healDamage(this.potRoll)
+          console.log(this.potRoll)
         }
+        this.showAddHp = true
       }
     }
   })
@@ -390,22 +391,64 @@
   }
 
   .dropdown-content {
+    display: flex;
+    margin-top: 3px;
+    color: white;
+    font-size: 1rem;
     position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color:#245080ec;
+    box-shadow: 0px 8px 16px 0px #00000033;
     z-index: 1;
   }
 
   .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
   }
 
   .dropdown-content a:hover {
-    background-color: #ddd
+    background-color: #1d3f63;
+  }
+
+  .drink-lesser::after {
+    color: #ffffffc0;
+    font-size: 0.8rem;
+    content: ' 2d4+2'
+  }
+
+  .drink-greater::after {
+    color:  #ffffffc0;
+    font-size: 0.8rem;
+    content: ' 4d4+4'
+  }
+
+  .drink-superior::after {
+    color:  #ffffffc0;
+    font-size: 0.8rem;
+    content: ' 8d4+8'
+  }
+
+  .drink-supreme::after {
+    color:  #ffffffc0;
+    font-size: 0.8rem;
+    content: ' 10d4+20'
+  }
+
+  .hp-added {
+    position: absolute;
+    vertical-align: middle;
+    line-height: 35px;
+    z-index: 1;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff40;
+    align-self: flex-start;
+    margin-left: 10%;
+  }
+
+  .hp-added:hover {
+    color: white;
   }
 
   .bar {
@@ -418,7 +461,8 @@
   .hit-points-bar {
     position: relative;
     display: flex;
-    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
     height: 35px;
     margin-bottom: 0;
     background-color: #5f5f5f;
