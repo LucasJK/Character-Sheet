@@ -381,7 +381,7 @@
   .sheet-container {
     display: flex;
     flex-direction: column;
-    padding: 5vh 5vw;
+    padding: 5vh 5vw 0 5vw;
   }
 
   .mid-container/* , .bot-container */ {
@@ -667,13 +667,13 @@
   .combat-stats div {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100px;
     height: 100px;
     padding: 1rem;
     margin: 1rem 1rem 0 0;
     background-color: #5f5f5f;
-    border: 1px solid whitesmoke;
+    border: 10px double #afafaf;
     border-radius: 20%;
   }
 
@@ -685,6 +685,7 @@
   .combat-stats div .stat-number {
     font-size: 3rem;
     color: white;
+    margin-top: 0.4rem;
   }
 
   .attacks {
@@ -699,6 +700,7 @@
   .attacks-header {
     padding: 0.3rem;
     border-bottom: 1px solid whitesmoke;
+    color: white;
   }
 
 </style>
