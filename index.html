@@ -21,9 +21,9 @@
 
         <div class="character-image">
           <div class="character-image-border":style="lowHp">
-            <div class="shield-container">
-              <div class="shield">
-                <div class="shield-text">{{armourClass}}</div>
+            <div class="eye-container">
+              <div class="eye">
+                <div class="eye-text">{{passivePerception}}</div>
               </div>
             </div>
             <div class="drink-potion btn" @click="toggleShowPotions()">
@@ -103,6 +103,37 @@
     </div>
 
       <div class="mid-container">
+        <div class="mid-expand" @click="toggleShowCombat()">
+            <span class="combat-header">
+              <i class="fas fa-chess-knight"></i>&nbsp;&nbsp;Combat
+            </span>
+            <span>{{showCombatContent}}</span>
+        </div>
+
+        <div v-if="showCombat" class="combat-container">
+          <div class="stats-and-attacks">
+            <div class="combat-stats">
+              <div class="armour-class">
+                <span class="stat-number">{{armourClass}}</span><span>AC</span>
+              </div>
+              <div class="initiative">
+                <span class="stat-number">{{initiative}}</span><span>Initiative</span>
+              </div>
+              <div class="proficiency-bonus">
+                <span class="stat-number">{{proficiencyBonus}}</span><span>Proficiency Bonus</span>
+              </div>
+              <div class="speed">
+                <span class="stat-number">{{speed}}</span><span>Speed</span>
+              </div>
+            </div>
+            <div class="attacks">
+              <div class="attacks-header">
+                <i class="fas fa-bolt"></i>&nbsp;&nbsp;Attacks&nbsp;&&nbsp;Spellcasting
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="bot-container">   
@@ -122,7 +153,11 @@
     data: {
       characterName: 'Clarence Veluuthra',
       level: 11,
+      passivePerception: 10,
       armourClass: 23,
+      initiative: 5,
+      proficiencyBonus: 4,
+      speed: 40,
       hitPointsCurrent: 38,
       hitPointsMaximum: 54,
       xpTotal: 98000,
@@ -155,9 +190,13 @@
         '20': 335000
       },
       showPotions: false,
-      potRoll: 0
+      potRoll: 0,
+      showCombat: false
     },
     computed: {
+
+      // Top
+
       lowHp: function () {
         if (this.hitPointsCurrent <= 0) {
           return {boxShadow: 'inset 0 0 100px #000'}
@@ -257,9 +296,24 @@
           }
         }
       },
+
       // -----
+
+      // Mid
+
+      showCombatContent: function () {
+        if (this.showCombat) {
+          return 'Hide'
+        } else {
+          return 'Click to expand'
+        }
+      }
+
     },
     methods: {
+
+      // Top
+
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
       },
@@ -300,6 +354,12 @@
           console.log(this.potRoll)
         }
         this.showAddHp = true
+      },
+
+      // Mid
+
+      toggleShowCombat: function () {
+        this.showCombat = !this.showCombat
       }
     }
   })
@@ -310,7 +370,8 @@
 /* General */
 
   html {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
     height: 100%;
     background-size: cover;
     background: #245080;
@@ -323,9 +384,13 @@
     padding: 5vh 5vw;
   }
 
+  .mid-container/* , .bot-container */ {
+    margin-top: 35px;
+  }
+
   .character-name {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.5rem;
-    color: whitesmoke;
     text-shadow:
       -1px -1px 0 #000,
       1px -1px 0 #000,
@@ -341,7 +406,6 @@
 
   .btn:hover {
     cursor: pointer;
-    color: whitesmoke;
   }
 
   .add-or-subtract .btn {
@@ -395,7 +459,6 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column-reverse;
-    color: whitesmoke;
     font-size: 1.5rem;
   }
 
@@ -517,7 +580,6 @@
   .current-stat {
     width: 100%;
     height: 100%;
-    color: whitesmoke;
   }
 
   .bar-text {
@@ -534,39 +596,110 @@
 
   .mid-container {
     display: flex;
+    flex-direction: column;
   }
 
   .bot-container {
     display: flex;
   }
 
-/* AC Shield */
+/* PP Eye */
 
-  .shield-container {
+  .eye-container {
     position: absolute;
     width: 50px;
     height: 70px;
   }
 
-  .shield-text {
+  .eye-text {
     width: 100%;
     line-height: 55px;
     position: absolute;
     text-align: center;
     z-index: 2;
+    transform: rotate(-90deg);
+    padding-right: 0.4rem;
+    padding-bottom: 0.5rem;
   }
 
-  .shield {
+  .eye {
     border: 9px double #fad687;
-    position: absolute;
     width: 100%;
-    height: 90%;
+    height: 100%;
     background-color: #5f5f5f;
     border-radius: 0 0 45% 45%;
     display: inline-block;
     z-index: 1;
+    position: absolute;
+    border-radius:  75% 15%;
+    transform: rotate(90deg);
   }
 
+/* Mid Container */
+
+  .mid-expand {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.5rem;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
+    line-height: 24px;
+  }
+
+  .combat-header {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.4rem;
+  }
+
+  .stats-and-attacks {
+    display: flex;
+  }
+
+  .combat-stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: 400px;
+  }
+
+  .combat-stats div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+    margin: 1rem 1rem 0 0;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
+    border-radius: 20%;
+  }
+
+  .combat-stats div span {
+    display: block;
+    text-align: center;
+  }
+
+  .combat-stats div .stat-number {
+    font-size: 3rem;
+    color: white;
+  }
+
+  .attacks {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 400px;
+    margin-top: 1rem;
+    background-color: #5f5f5f;
+    border: 1px solid whitesmoke;
+  }
+
+  .attacks-header {
+    padding: 0.3rem;
+    border-bottom: 1px solid whitesmoke;
+  }
 
 </style>
 

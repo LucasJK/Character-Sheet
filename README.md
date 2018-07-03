@@ -8,7 +8,7 @@ Potential Feature List:
 - keeps track of concentration spells
 - keeps track of spell slots
 
-- use potion button
+- use potion button DONE
 
 - at a glance reference material "what does Darkness do?" etc.
 
