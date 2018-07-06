@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="shortcut icon" href="GoldLogo.png" type="image/x-icon">
-  <link rel="icon" href="GoldLogo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="Static/GoldLogo.png" type="image/x-icon">
+  <link rel="icon" href="Static/GoldLogo.png" type="image/x-icon">
   <title>CharSheet</title>
   <link rel="stylesheet"
   href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" 
@@ -21,11 +21,11 @@
 
         <div class="character-image">
           <div class="character-image-border":style="lowHp">
-            <div class="eye-container">
+            <!-- <div class="eye-container"> -->
               <div class="eye">
                 <div class="eye-text">{{passivePerception}}</div>
               </div>
-            </div>
+            <!-- </div> -->
             <div class="drink-potion btn" @click="toggleShowPotions()">
               <i class="fas fa-flask">  
                 <div class="potion-select">
@@ -39,7 +39,7 @@
               </i>                
             </div>
           </div>
-          <img src="ClarenceVeluuthra.png" alt="portrait image">
+          <img src="Static/ClarenceVeluuthra.png" alt="portrait image">
         </div>
 
         <div class="main-stats">
@@ -86,7 +86,7 @@
             <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
             <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
           </span>
-          <span class="hp-added">+{{potRoll}}</span>
+          <span class="hp-added">+&nbsp;{{potRoll}}</span>
           <div class="current-stat" :style="hpSize">
             <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
           </div>
@@ -144,7 +144,9 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-<script src="Dice Roller/DiceRoller.js"></script>
+<script src="Calc/DiceRoller.js"></script>
+<script src="Calc/ModifierCalculator.js"></script>
+
 
 <script>
 
@@ -166,7 +168,7 @@
       constitution: 12,
       intelligence: 15,
       wisdom: 10,
-      charisma:8,
+      charisma: 8,
       levelRequirements: {
         '1': 0,
         '2': 300,
@@ -301,6 +303,9 @@
 
       // Mid
 
+      dexMod: function () {
+        return calcAbilityMod(this.dexterity)
+      },
       showCombatContent: function () {
         if (this.showCombat) {
           return 'Hide'
@@ -374,8 +379,8 @@
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
     background-size: cover;
-    background: #245080;
-    background: linear-gradient(to bottom, #314255 0%,#415d7a 80%);
+    background: #444444;
+    /* background: linear-gradient(to bottom, #314255 0%,#415d7a 80%); */
   }
 
   .sheet-container {
@@ -406,6 +411,7 @@
 
   .btn:hover {
     cursor: pointer;
+    color: whitesmoke;
   }
 
   .add-or-subtract .btn {
@@ -441,7 +447,8 @@
     min-height: 300px;
     margin: 20px 20px 20px 0;
     background-color: #5f5f5f;
-    border: 9px double #fad687;
+    border: 8px solid #5f5f5f;
+    /* border: 9px double #fad687; */
     border-radius: 100%;
     /* border-image-source: url(test-border.png);
     border-image-slice: 200;  */
@@ -476,7 +483,7 @@
   }
 
   .dropdown-content {
-    border: 1px solid whitesmoke;
+    /* border: 1px solid whitesmoke; */
     display: flex;
     margin-top: 5px;
     color: white;
@@ -493,7 +500,7 @@
   }
 
   .dropdown-content a:hover {
-    background-color: #1d3f635e;
+    background-color: #525050;
   }
 
   .drink-lesser::after {
@@ -540,7 +547,7 @@
     height: 35px;
     margin: 0 10px 10px 10px;
     background-color: #5f5f5f;
-    border: 4px double whitesmoke;
+    /* border: 3px solid whitesmoke; */
   }
 
   .hit-points-bar {
@@ -573,7 +580,7 @@
   }
 
   .stat .current-stat {
-    background: linear-gradient(to right, #402a90 , #31a3c5);
+    background: linear-gradient(to top, #2a7390 70%, #31a3c5);
     /* background: linear-gradient(to right, #7A2A90 , #31a3c5); */
   }
 
@@ -605,30 +612,27 @@
 
 /* PP Eye */
 
-  .eye-container {
-    position: absolute;
-    width: 50px;
-    height: 70px;
-  }
-
   .eye-text {
+    color: #cccccc;
     width: 100%;
     line-height: 55px;
     position: absolute;
     text-align: center;
     z-index: 2;
     transform: rotate(-90deg);
-    padding-right: 0.4rem;
-    padding-bottom: 0.5rem;
   }
 
   .eye {
-    border: 9px double #fad687;
-    width: 100%;
-    height: 100%;
+    border: 3px solid #5f5f5f;
+    /* border: 9px double #afafaf; */
+    /* border: 9px double #fad687; */
+    width: 70px;
+    height: 70px;
     background-color: #5f5f5f;
     border-radius: 0 0 45% 45%;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1;
     position: absolute;
     border-radius:  75% 15%;
@@ -637,6 +641,10 @@
 
 /* Mid Container */
 
+  .mid-container {
+    color: #cccccc;
+  }
+
   .mid-expand {
     display: flex;
     justify-content: space-between;
@@ -644,7 +652,6 @@
     user-select: none;
     padding: 0.5rem;
     background-color: #5f5f5f;
-    border: 1px solid whitesmoke;
     line-height: 24px;
   }
 
@@ -659,9 +666,9 @@
 
   .combat-stats {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    flex-basis: 400px;
+    flex-basis: 296px;
   }
 
   .combat-stats div {
@@ -673,7 +680,6 @@
     padding: 1rem;
     margin: 1rem 1rem 0 0;
     background-color: #5f5f5f;
-    border: 10px double #afafaf;
     border-radius: 20%;
   }
 
@@ -684,23 +690,20 @@
 
   .combat-stats div .stat-number {
     font-size: 3rem;
-    color: white;
     margin-top: 0.4rem;
   }
 
   .attacks {
     display: flex;
     flex-direction: column;
-    flex: 1 1 400px;
+    flex-grow: 1;
     margin-top: 1rem;
-    background-color: #5f5f5f;
-    border: 1px solid whitesmoke;
+    background-color: #525050;
   }
 
   .attacks-header {
     padding: 0.3rem;
-    border-bottom: 1px solid whitesmoke;
-    color: white;
+    background-color: #5f5f5f;
   }
 
 </style>
