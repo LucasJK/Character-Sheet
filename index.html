@@ -45,33 +45,33 @@
         <div class="main-stats">
 
           <div class="strength stat bar":style="maxStr">
+            <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
             <div class="current-stat" :style="strSize">
-              <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
             </div>
           </div>
           <div class="dexterity stat bar" :style="maxDex">
+            <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
             <div class="current-stat" :style="dexSize">
-              <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
             </div>
           </div>
           <div class="constitution stat bar" :style="maxCon">
+            <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
             <div class="current-stat" :style="conSize">
-              <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
             </div>
           </div>
           <div class="intelligence stat bar" :style="maxInt">
+            <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
             <div class="current-stat" :style="intSize">
-              <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
             </div>
           </div>
           <div class="wisdom stat bar" :style="maxWis">
+            <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
             <div class="current-stat" :style="wisSize">
-              <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
             </div>
           </div>
           <div class="charisma stat bar" :style="maxCha">
+            <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
             <div class="current-stat" :style="chaSize">
-              <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
             </div>
           </div>
     
@@ -216,22 +216,22 @@
         return {width: String((this.xpCurrent / this.xpGoalCurrent) * 100) + '%'}
       },
       strSize: function () {
-        return {width: String((this.strength / 20) * 100) + '%'}
+        return {width: String(((20 - this.strength) / 20) * 100) + '%'}
       },
       dexSize: function () {
-        return {width: String((this.dexterity / 20) * 100) + '%'}
+        return {width: String(((20 - this.dexterity) / 20) * 100) + '%'}
       },
       conSize: function () {
-        return {width: String((this.constitution / 20) * 100) + '%'}
+        return {width: String(((20 - this.constitution) / 20) * 100) + '%'}
       },
       intSize: function () {
-        return {width: String((this.intelligence / 20) * 100) + '%'}
+        return {width: String(((20 - this.intelligence) / 20) * 100) + '%'}
       },
       wisSize: function () {
-        return {width: String((this.wisdom / 20) * 100) + '%'}
+        return {width: String(((20 - this.wisdom) / 20) * 100) + '%'}
       },
       chaSize: function () {
-        return {width: String((this.charisma / 20) * 100) + '%'}
+        return {width: String(((20 - this.charisma) / 20) * 100) + '%'}
       },
 
       // -----
@@ -254,47 +254,48 @@
       maxStr: function () {
         if (this.strength >= 20) {
           return { borderColor: '#42280059',
-          fontSize: '1.2rem',
-          backgroundColor: '#fad687'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
       maxDex: function () {
         if (this.dexterity >= 20) {
           return { borderColor: '#fad687',
-          fontSize: '1.2rem'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
       maxCon: function () {
         if (this.constitution >= 20) {
           return { borderColor: '#42280059',
-          fontSize: '1.2rem',
-          backgroundColor: '#fad687'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
       maxInt: function () {
         if (this.intelligence >= 20) {
           return { borderColor: '#42280059',
-          fontSize: '1.2rem',
-          backgroundColor: '#fad687'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
       maxWis: function () {
         if (this.wisdom >= 20) {
           return { borderColor: '#42280059',
-          fontSize: '1.2rem',
-          backgroundColor: '#fad687'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
       maxCha: function () {
         if (this.charisma >= 20) {
           return { borderColor: '#42280059',
-          fontSize: '1.2rem',
-          backgroundColor: '#fad687'
+          backgroundColor: '#fad687',
+          borderLeft: 'none'
           }
         }
       },
@@ -378,9 +379,11 @@
     color: whitesmoke;
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
-    background-size: cover;
-    background: #444444;
+    /* background-size: cover; */
+    /* background: #444444; */
     /* background: linear-gradient(to bottom, #314255 0%,#415d7a 80%); */
+    background-color: #000000;
+    background-image: url("https://www.transparenttextures.com/patterns/shattered-dark.png");
   }
 
   .sheet-container {
@@ -544,9 +547,13 @@
   }
 
   .bar {
+    display: flex;
+    justify-content: space-between;
     height: 35px;
     margin: 0 10px 10px 10px;
-    background-color: #5f5f5f;
+    background: linear-gradient(to right, #7026ac , #31a3c5);
+    /* background: linear-gradient(to right, #7A2A90 , #31a3c5); */
+    /* background-color: #5f5f5f; */
     /* border: 3px solid whitesmoke; */
   }
 
@@ -580,8 +587,8 @@
   }
 
   .stat .current-stat {
-    background: linear-gradient(to top, #2a7390 70%, #31a3c5);
-    /* background: linear-gradient(to right, #7A2A90 , #31a3c5); */
+    background-color: #5f5f5f;
+    /* border-left: 2px solid #305675; */
   }
 
   .current-stat {
@@ -592,7 +599,7 @@
   .bar-text {
     vertical-align: middle;
     line-height: 35px;
-    padding-left: 5px;
+    padding: 0 10px;
   }
 
   .xp-bar-text {
@@ -628,7 +635,7 @@
     /* border: 9px double #fad687; */
     width: 70px;
     height: 70px;
-    background-color: #5f5f5f;
+    background-color: #444444;
     border-radius: 0 0 45% 45%;
     display: flex;
     align-items: center;
