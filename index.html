@@ -48,37 +48,60 @@
 
         <div class="main-stats">
 
-          <div class="strength stat bar":style="maxStr">
-            <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
-            <div class="current-stat" :style="strSize">
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.strength)}}</div>
+            <div class="strength stat bar":style="maxStr">
+              <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
+              <div class="current-stat" :style="strSize">
+              </div>
             </div>
           </div>
-          <div class="dexterity stat bar" :style="maxDex">
-            <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
-            <div class="current-stat" :style="dexSize">
+          
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.dexterity)}}</div>
+            <div class="dexterity stat bar" :style="maxDex">
+              <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
+              <div class="current-stat" :style="dexSize">
+              </div>
             </div>
           </div>
-          <div class="constitution stat bar" :style="maxCon">
-            <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
-            <div class="current-stat" :style="conSize">
+
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.constitution)}}</div>
+            <div class="constitution stat bar" :style="maxCon">
+              <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
+              <div class="current-stat" :style="conSize">
+              </div>
             </div>
           </div>
-          <div class="intelligence stat bar" :style="maxInt">
-            <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
-            <div class="current-stat" :style="intSize">
+
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.intelligence)}}</div>
+            <div class="intelligence stat bar" :style="maxInt">
+              <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
+              <div class="current-stat" :style="intSize">
+              </div>
             </div>
           </div>
-          <div class="wisdom stat bar" :style="maxWis">
-            <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
-            <div class="current-stat" :style="wisSize">
+
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.wisdom)}}</div>
+            <div class="wisdom stat bar" :style="maxWis">
+              <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
+              <div class="current-stat" :style="wisSize">
+              </div>
             </div>
           </div>
-          <div class="charisma stat bar" :style="maxCha">
-            <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
-            <div class="current-stat" :style="chaSize">
+
+          <div class="mod-and-bar">
+            <div class="stat-mod">{{abilityMod(this.charisma)}}</div>
+            <div class="charisma stat bar" :style="maxCha">
+              <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
+              <div class="current-stat" :style="chaSize">
+              </div>
             </div>
           </div>
-    
+
         </div>
 
       </div>
@@ -327,6 +350,9 @@
 
       // Top
 
+      abilityMod: function (stat) {
+        return calcAbilityMod(stat)
+      },
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
       },
@@ -561,8 +587,23 @@
     color: white;
   }
 
+  .mod-and-bar {
+    display: flex;
+  }
+
+  .stat-mod {
+    border-radius: 100%;
+    height: 35px;
+    width: 35px;
+    background-color: #7026ac;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .bar {
     display: flex;
+    flex-grow: 1;
     justify-content: space-between;
     height: 35px;
     margin: 0 10px 10px 10px;
