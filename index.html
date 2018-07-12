@@ -13,7 +13,11 @@
 
   <div class="sheet-container">
 
-    <div class="character-name">{{characterName}}<br/>Level:&nbsp;{{level}}</div>
+    <div class="character-name">{{characterName}}<br/>
+      <span>{{classObj.firstClass}}</span>
+      <span>&nbsp;&nbsp;{{classObj.secondClass}}</span>
+      <span>&nbsp;&nbsp;{{classObj.thirdClass}}</span>
+    </div>
 
     <div class="top-container">
 
@@ -155,6 +159,9 @@
     data: {
       characterName: 'Clarence Veluuthra',
       level: 11,
+      classObj: {
+        firstClass: 'Rogue 11'
+      },
       passivePerception: 10,
       armourClass: 23,
       initiative: 5,
@@ -399,11 +406,19 @@
   .character-name {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.5rem;
+    font-weight: bold;
     text-shadow:
       -1px -1px 0 #000,
       1px -1px 0 #000,
       -1px 1px 0 #000,
       1px 1px 0 #000;
+  }
+
+  .character-name span {
+    font-size: 1.4rem;
+    color: #c0c0c0;
+    font-style: italic;
+    font-weight: 400;
   }
 
   .btn {
