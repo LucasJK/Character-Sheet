@@ -43,7 +43,7 @@
               </i>                
             </div>
           </div>
-          <img src="Static/ClarenceVeluuthra.png" alt="portrait image">
+          <img src="Static/VaraIntepPortrait.png" alt="portrait image">
         </div>
 
         <div class="main-stats">
@@ -155,10 +155,18 @@
             </div>
             <div class="attacks">
               <div class="attacks-header">
-                <i class="fas fa-bolt"></i>&nbsp;&nbsp;Attacks&nbsp;&&nbsp;Spellcasting
+                <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Attacks&nbsp;&&nbsp;Spellcasting
               </div>
               <ul class="attack-list">
-                <li v-for="attack in spells" class="attack">{{attack.man}}</li>
+                <li v-for="attack in attacks" class="attack">
+                  <a class="attack-button"><i class="fas fa-bullseye"></i></a>
+                  <span class="attack-text">
+                    <span class="attack-name" contenteditable="true">{{attack.name}}</span>
+                    <span class="attack-bonus" contenteditable="true">{{attack.bonus}}</span>
+                    <span class="attack-damage" contenteditable="true">{{attack.damage}}</span>
+                    <span class="attack-damage-type" contenteditable="true">{{attack.damageType}}</span>
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
@@ -183,25 +191,25 @@
   var app = new Vue({
     el: '.sheet-container',
     data: {
-      characterName: 'Clarence Veluuthra',
-      level: 11,
+      characterName: 'Vara Intep',
+      level: 6,
       classObj: {
-        firstClass: 'Rogue 11'
+        firstClass: 'Fighter 6'
       },
       passivePerception: 10,
-      armourClass: 23,
-      initiative: 5,
-      proficiencyBonus: 4,
-      speed: 40,
-      hitPointsCurrent: 38,
-      hitPointsMaximum: 54,
-      xpTotal: 98000,
-      strength: 14,
-      dexterity: 20,
+      armourClass: 17,
+      initiative: 3,
+      proficiencyBonus: 3,
+      speed: 30,
+      hitPointsCurrent: 60,
+      hitPointsMaximum: 60,
+      xpTotal: 14000,
+      strength: 13,
+      dexterity: 17,
       constitution: 12,
-      intelligence: 15,
+      intelligence: 14,
       wisdom: 10,
-      charisma: 8,
+      charisma: 14,
       levelRequirements: {
         '1': 0,
         '2': 300,
@@ -227,11 +235,21 @@
       showPotions: false,
       potRoll: 0,
       showCombat: false,
-      spells: [
-        { man: 'dude' },
-        { man: 'bro' },
-        { man: 'dude' },
-        { man: 'bro' }
+      attacks: [
+        { 
+          name: 'Scimitar',
+          bonus: '+7',
+          damage: '1d6 + 4, 1d6',
+          damageType: 'Slashing, Fire',
+          type: 'weapon'
+        },
+        { 
+          name: 'Scimitar',
+          bonus: '+7',
+          damage: '1d6 + 4, 1d6',
+          damageType: 'Slashing, Necrotic',
+          type: 'weapon'
+        }
       ]
     },
     computed: {
@@ -425,9 +443,6 @@
     color: whitesmoke;
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
-    /* background-size: cover; */
-    /* background: #444444; */
-    /* background: linear-gradient(to bottom, #314255 0%,#415d7a 80%); */
     background-color: #000000;
     background-image: url("https://www.transparenttextures.com/patterns/shattered-dark.png");
   }
@@ -505,7 +520,6 @@
     margin: 20px 20px 20px 0;
     background-color: #5f5f5f;
     border: 8px solid #5f5f5f;
-    /* border: 9px double #fad687; */
     border-radius: 100%;
     /* border-image-source: url(test-border.png);
     border-image-slice: 200;  */
@@ -593,7 +607,7 @@
     font-weight: bold;
     color: #ffffff40;
     align-self: flex-start;
-    margin-left: 10%;
+    margin-left: 100px;
   }
 
   .hp-added:hover {
@@ -611,8 +625,6 @@
     border-radius: 100%;
     height: 35px;
     width: 35px;
-    /* font-family: 'Times New Roman', Times, serif; */
-    /* font-weight: bold; */
     font-size: 1.15rem;
     background-color: #7026ac;
   }
@@ -624,9 +636,6 @@
     height: 35px;
     margin: 0 10px 10px 10px;
     background: linear-gradient(to right, #7026ac , #31a3c5);
-    /* background: linear-gradient(to right, #7A2A90 , #31a3c5); */
-    /* background-color: #5f5f5f; */
-    /* border: 3px solid whitesmoke; */
   }
 
   .hit-points-bar {
@@ -660,7 +669,6 @@
 
   .stat .current-stat {
     background-color: #5f5f5f;
-    /* border-left: 2px solid #305675; */
   }
 
   .current-stat {
@@ -772,11 +780,15 @@
     margin-top: 0.4rem;
   }
 
+  /* Attacks */
+
   .attacks {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin-top: 1rem;
+    height: fit-content;
+    max-height: 280px;
     background-color: #525050;
   }
 
@@ -799,6 +811,8 @@
     flex-grow: 1;
     align-items: center;
     padding: 0.5rem 1rem;
+    height: 30px;
+    font-size: 0.9rem;
   }
   
   .attack:nth-child(even) {
@@ -806,6 +820,65 @@
   }
   .attack:nth-child(odd) {
     background-color: #525050;
+  }
+  
+  .attack-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: #cccccc;
+    background-color: #00000044;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .attack-button:hover {
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: #00000080;
+  }
+
+  .attack-text {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+  }
+
+  .attack-text span {
+    width: 20%;
+  }
+
+  /* Tooltips */
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
   }
 
 </style>
