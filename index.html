@@ -40,7 +40,7 @@
                     <a class="drink-supreme" @click="drinkPotion('Supreme')">Supreme</a>
                   </div>
                 </div>
-              </i>                
+              </i>
             </div>
           </div>
           <img src="Static/VaraIntepPortrait.png" alt="portrait image">
@@ -49,54 +49,54 @@
         <div class="main-stats">
 
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.strength)}}</div>
-            <div class="strength stat bar":style="maxStr">
-              <span class="bar-text">Strength&nbsp;<b>{{strength}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.strength.value)}}</div>
+            <div class="strength stat bar">
+              <span class="bar-text">Strength&nbsp;<b>{{strength.value}}</b></span>
               <div class="current-stat" :style="strSize">
               </div>
             </div>
           </div>
           
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.dexterity)}}</div>
-            <div class="dexterity stat bar" :style="maxDex">
-              <span class="bar-text">Dexterity&nbsp;<b>{{dexterity}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.dexterity.value)}}</div>
+            <div class="dexterity stat bar">
+              <span class="bar-text">Dexterity&nbsp;<b>{{dexterity.value}}</b></span>
               <div class="current-stat" :style="dexSize">
               </div>
             </div>
           </div>
 
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.constitution)}}</div>
-            <div class="constitution stat bar" :style="maxCon">
-              <span class="bar-text">Constitution&nbsp;<b>{{constitution}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.constitution.value)}}</div>
+            <div class="constitution stat bar">
+              <span class="bar-text">Constitution&nbsp;<b>{{constitution.value}}</b></span>
               <div class="current-stat" :style="conSize">
               </div>
             </div>
           </div>
 
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.intelligence)}}</div>
-            <div class="intelligence stat bar" :style="maxInt">
-              <span class="bar-text">Intelligence&nbsp;<b>{{intelligence}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.intelligence.value)}}</div>
+            <div class="intelligence stat bar">
+              <span class="bar-text">Intelligence&nbsp;<b>{{intelligence.value}}</b></span>
               <div class="current-stat" :style="intSize">
               </div>
             </div>
           </div>
 
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.wisdom)}}</div>
-            <div class="wisdom stat bar" :style="maxWis">
-              <span class="bar-text">Wisdom&nbsp;<b>{{wisdom}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.wisdom.value)}}</div>
+            <div class="wisdom stat bar">
+              <span class="bar-text">Wisdom&nbsp;<b>{{wisdom.value}}</b></span>
               <div class="current-stat" :style="wisSize">
               </div>
             </div>
           </div>
 
           <div class="mod-and-bar">
-            <div class="stat-mod">{{abilityMod(this.charisma)}}</div>
-            <div class="charisma stat bar" :style="maxCha">
-              <span class="bar-text">Charisma&nbsp;<b>{{charisma}}</b></span>
+            <div class="stat-mod">{{abilityMod(this.charisma.value)}}</div>
+            <div class="charisma stat bar">
+              <span class="bar-text">Charisma&nbsp;<b>{{charisma.value}}</b></span>
               <div class="current-stat" :style="chaSize">
               </div>
             </div>
@@ -174,9 +174,94 @@
 
       </div>
 
-      <div class="bot-container">   
-      </div>
+      <div class="mid-container">
+        <div class="mid-expand" @click="toggleShowSkills()">
+          <span class="saves-and-skills-header">
+            <i class="fas fa-bars"></i>&nbsp;&nbsp;Skills
+          </span>
+          <span>{{showSkillsContent}}</span>
+        </div>
 
+        <div v-if="showSkills" class="skills-container">
+          <div class="saves-and-skills">
+
+            <div class="saving-throws">
+              <div class="saves-header">
+                <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Saving&nbsp;Throws
+              </div>
+              <ul class="save-list">
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{strSave}}</span>
+                    <span class="save-name">Strength</span>
+                    <span class="save-prof">{{strength.prof}}</span>
+                  </span>
+                </li>
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{dexSave}}</span>
+                    <span class="save-name">Dexterity</span>
+                    <span class="save-prof">{{dexterity.prof}}</span>
+                  </span>
+                </li>
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{conSave}}</span>
+                    <span class="save-name">Constitution</span>
+                    <span class="save-prof">{{constitution.prof}}</span>
+                  </span>
+                </li>
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{intSave}}</span>
+                    <span class="save-name">Intelligence</span>
+                    <span class="save-prof">{{intelligence.prof}}</span>
+                  </span>
+                </li>
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{wisSave}}</span>
+                    <span class="save-name">Wisdom</span>
+                    <span class="save-prof">{{wisdom.prof}}</span>
+                  </span>
+                </li>
+                <li class="save">
+                  <span class="save-text">
+                    <span class="save-value" style="width: 24px;">{{chaSave}}</span>
+                    <span class="save-name">Charisma</span>
+                    <span class="save-prof">{{charisma.prof}}</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="skills">
+
+              <div class="skills-header">
+                <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Skills
+              </div>
+
+              <ul class="skill-list">
+                <li v-for="skill in skills" class="skill">
+                  <span class="skill-text">
+                    <span class="skill-value-prof">
+                      <span class="skill-value">{{skill.value}}</span>
+                      <span class="skill-prof">&nbsp;{{skill.prof}}</span>
+                    </span>
+                    <span class="skill-name-stat">
+                      <span class="skill-name">{{skill.name}}</span>
+                      <span class="skill-stat">{{skill.stat}}</span>
+                    </span>
+                  </span>
+                </li>
+              </ul>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="bot-container"></div>
   </div>
 
 </body>
@@ -184,7 +269,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="Calc/DiceRoller.js"></script>
 <script src="Calc/ModifierCalculator.js"></script>
-
 
 <script>
 
@@ -203,13 +287,148 @@
       speed: 30,
       hitPointsCurrent: 60,
       hitPointsMaximum: 60,
-      xpTotal: 14000,
-      strength: 13,
-      dexterity: 17,
-      constitution: 12,
-      intelligence: 14,
-      wisdom: 10,
-      charisma: 14,
+      xpTotal: 15600,
+      strength: 
+      {
+        value: 13,
+        prof: 1
+      },
+      dexterity:
+      {
+        value: 17,
+        prof: 0
+      },
+      constitution:
+      {
+        value: 12,
+        prof: 1
+      },
+      intelligence:
+      {
+        value: 14,
+        prof: 0
+      },
+      wisdom:
+      {
+        value: 10,
+        prof: 0
+      },
+      charisma:
+      {
+        value: 14,
+        prof: 0
+      },
+      skills: [
+        {
+          name: "Acrobatics",
+          stat: "dex",
+          value: 0,
+          prof: 2
+        },
+        {
+          name: "Animal Handling",
+          stat: "wis",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Arcana",
+          stat: "int",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Athletics",
+          stat: "str",
+          value: 0,
+          prof: 1
+        },
+        {
+          name: "Deception",
+          stat: "cha",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "History",
+          stat: "int",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Insight",
+          stat: "wis",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Intimidation",
+          stat: "cha",
+          value: 0,
+          prof: 2
+        },
+        {
+          name: "Investigation",
+          stat: "int",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Medicine",
+          stat: "wis",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Nature",
+          stat: "int",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Perception",
+          stat: "wis",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Performance",
+          stat: "cha",
+          value: 0,
+          prof: 1
+        },
+        {
+          name: "Persuasion",
+          stat: "cha",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Religion",
+          stat: "int",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Sleight of Hand",
+          stat: "dex",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Stealth",
+          stat: "dex",
+          value: 0,
+          prof: 0
+        },
+        {
+          name: "Survival",
+          stat: "wis",
+          value: 0,
+          prof: 0
+        },
+      ],
+      hasRunCalcSkills: false,
       levelRequirements: {
         '1': 0,
         '2': 300,
@@ -235,6 +454,7 @@
       showPotions: false,
       potRoll: 0,
       showCombat: false,
+      showSkills: false,
       attacks: [
         { 
           name: 'Dancing Blade F',
@@ -315,25 +535,25 @@
         return {width: String((this.xpCurrent / this.xpGoalCurrent) * 100) + '%'}
       },
       strSize: function () {
-        return {width: String(((20 - this.strength) / 20) * 100) + '%'}
+        return {width: String(((20 - this.strength.value) / 20) * 100) + '%'}
       },
       dexSize: function () {
-        return {width: String(((20 - this.dexterity) / 20) * 100) + '%'}
+        return {width: String(((20 - this.dexterity.value) / 20) * 100) + '%'}
       },
       conSize: function () {
-        return {width: String(((20 - this.constitution) / 20) * 100) + '%'}
+        return {width: String(((20 - this.constitution.value) / 20) * 100) + '%'}
       },
       intSize: function () {
-        return {width: String(((20 - this.intelligence) / 20) * 100) + '%'}
+        return {width: String(((20 - this.intelligence.value) / 20) * 100) + '%'}
       },
       wisSize: function () {
-        return {width: String(((20 - this.wisdom) / 20) * 100) + '%'}
+        return {width: String(((20 - this.wisdom.value) / 20) * 100) + '%'}
       },
       chaSize: function () {
-        return {width: String(((20 - this.charisma) / 20) * 100) + '%'}
+        return {width: String(((20 - this.charisma.value) / 20) * 100) + '%'}
       },
 
-      // -----
+      // XP
 
       xpCurrent: function () {
         return this.xpTotal - this.xpThisLevel
@@ -348,83 +568,60 @@
         return this.levelRequirements[String(this.level + 1)]
       },
 
-      // Max Stats
+      // Combat
 
-      maxStr: function () {
-        if (this.strength >= 20) {
-          return { borderColor: '#42280059',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-      maxDex: function () {
-        if (this.dexterity >= 20) {
-          return { borderColor: '#fad687',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-      maxCon: function () {
-        if (this.constitution >= 20) {
-          return { borderColor: '#42280059',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-      maxInt: function () {
-        if (this.intelligence >= 20) {
-          return { borderColor: '#42280059',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-      maxWis: function () {
-        if (this.wisdom >= 20) {
-          return { borderColor: '#42280059',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-      maxCha: function () {
-        if (this.charisma >= 20) {
-          return { borderColor: '#42280059',
-          backgroundColor: '#fad687',
-          borderLeft: 'none'
-          }
-        }
-      },
-
-      // -----
-
-      // Mid
-
-      dexMod: function () {
-        return calcAbilityMod(this.dexterity)
-      },
       showCombatContent: function () {
         if (this.showCombat) {
           return 'Hide'
         } else {
           return 'Click to expand'
         }
+      },
+
+      // Saving Throws & Skills
+
+      showSkillsContent: function () {
+        if (this.showSkills) {
+          return 'Hide'
+        } else {
+          return 'Click to expand'
+        }
+      },
+
+      strSave: function () {
+        return this.posNeg(calcAbilityMod(this.strength.value) + this.proficiencyBonus * this.strength.prof)
+      },
+      dexSave: function () {
+        return this.posNeg(calcAbilityMod(this.dexterity.value) + this.proficiencyBonus * this.dexterity.prof)
+      },
+      conSave: function () {
+        return this.posNeg(calcAbilityMod(this.constitution.value) + this.proficiencyBonus * this.constitution.prof)
+      },
+      intSave: function () {
+        return this.posNeg(calcAbilityMod(this.intelligence.value) + this.proficiencyBonus * this.intelligence.prof)
+      },
+      wisSave: function () {
+        return this.posNeg(calcAbilityMod(this.wisdom.value) + this.proficiencyBonus * this.wisdom.prof)
+      },
+      chaSave: function () {
+        return this.posNeg(calcAbilityMod(this.charisma.value) + this.proficiencyBonus * this.charisma.prof)
       }
 
     },
     methods: {
 
       // Top
+      
+      posNeg: function (stat) {
+        if (stat <= 0) {
+          return stat
+        } else {
+          return '+' + String(stat)
+        }       
+      },
 
       abilityMod: function (stat) {
-        if (calcAbilityMod(stat) <= 0) {
-          return calcAbilityMod(stat)
-        } else {
-          return '+' + String(calcAbilityMod(stat))
-        }
+        return this.posNeg(calcAbilityMod(stat))
       },
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
@@ -472,6 +669,35 @@
 
       toggleShowCombat: function () {
         this.showCombat = !this.showCombat
+      },
+      toggleShowSkills: function () {
+        this.showSkills = !this.showSkills
+        if (!this.hasRunCalcSkills) {
+          this.calcSkills()
+        }
+      },
+      
+      calcSkill: function (stat, skill) {
+        return this.posNeg(calcAbilityMod(stat) + this.proficiencyBonus * skill)
+      },
+      
+      calcSkills: function () {
+        var s;
+        for (s = 0; s < this.skills.length; s++) {
+          if (this.skills[s].stat === 'str') {
+            this.skills[s].value = this.calcSkill(this.strength.value, this.skills[s].prof)
+          } else if (this.skills[s].stat === 'dex') {
+            this.skills[s].value = this.calcSkill(this.dexterity.value, this.skills[s].prof)
+          } else if (this.skills[s].stat === 'int') {
+            this.skills[s].value = this.calcSkill(this.intelligence.value, this.skills[s].prof)
+          } else if (this.skills[s].stat === 'wis') {
+            this.skills[s].value = this.calcSkill(this.wisdom.value, this.skills[s].prof)
+          } else if (this.skills[s].stat === 'cha') {
+            this.skills[s].value = this.calcSkill(this.charisma.value, this.skills[s].prof)
+          }
+        }
+        this.hasRunCalcSkills = true
+        console.log('Calculated Skills: ' + String(this.hasRunCalcSkills))
       }
     }
   })
@@ -492,11 +718,13 @@
   .sheet-container {
     display: flex;
     flex-direction: column;
-    padding: 5vh 5vw 0 5vw;
+    padding: 4vh 5vw 0 5vw;
   }
 
-  .mid-container/* , .bot-container */ {
-    margin-top: 35px;
+  .mid-container, .bot-container {
+    margin-top: 1.3rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .character-name {
@@ -729,15 +957,6 @@
     font-size: 0.8rem;
   }
 
-  .mid-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .bot-container {
-    display: flex;
-  }
-
 /* PP Eye */
 
   .eye-text {
@@ -781,12 +1000,12 @@
     line-height: 24px;
   }
 
-  .combat-header {
+  .combat-header, .saves-and-skills-header {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4rem;
   }
 
-  .stats-and-attacks {
+  .stats-and-attacks, .saves-and-skills {
     display: flex;
   }
 
@@ -819,7 +1038,7 @@
     margin-top: 0.4rem;
   }
 
-  /* Attacks */
+  /* Attacks and Skills */
 
   .attacks {
     display: flex;
@@ -831,12 +1050,26 @@
     background-color: #525050;
   }
 
-  .attacks-header {
-    padding: 0.3rem;
+  .saving-throws, .skills {
+    display: flex;
+    flex-direction: column;
+    width: calc(30% - 1rem);
+    margin-top: 1rem;
+    height: 280px;
+    background-color: #525050;
+  }
+  
+  .skills {
+    margin-left: 1rem;
+    width: 70%;
+  }
+
+  .attacks-header, .saves-header, .skills-header {
+    padding: 0.6rem;
     background-color: #5f5f5f;
   }
   
-  .attack-list {
+  .attack-list, .save-list {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -845,6 +1078,14 @@
     overflow: auto;
   }
   
+  .skill-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+  }
+
   .attack-list::-webkit-scrollbar {
     width: 1em;
   }
@@ -858,23 +1099,69 @@
     outline: 1px solid slategrey;
   }
 
-  .attack {
+  .attack, .save {
     display: flex;
     flex-grow: 1;
     align-items: center;
     padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .attack {
     height: 30px;
     min-height: 30px;
+  }
+
+  .skill {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 40.4px;
+    text-align: center;
     font-size: 0.9rem;
   }
-  
-  .attack:nth-child(even) {
-    background-color: #444444;
+
+  .save-text, .skill-text {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
   }
-  .attack:nth-child(odd) {
+
+  .save-name {
+    flex-grow: 1;
+    max-width: 60%;
+    min-width: 77px;
+    text-align: left;
+  }
+
+  .save-prof, .skill-stat, .skill-prof {
+    color: grey;
+  }
+
+  .skill-value-prof {
+    width: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .skill-value {
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .skill-name-stat {
+    width: 130px;
+    text-align: left;
+  }
+
+  .attack:nth-child(even), .save:nth-child(even), .skill:nth-child(even) {
     background-color: #525050;
   }
-  
+  .attack:nth-child(odd), .save:nth-child(odd), .skill:nth-child(odd) {
+    background-color: #444444;
+  }
+
   .attack-button {
     display: flex;
     align-items: center;
@@ -900,7 +1187,11 @@
   }
 
   .attack-text span {
-    width: 20%;
+    width: 22%;
+  }
+
+  span.attack-bonus {
+    width: 35px;
   }
 
   /* Tooltips */
