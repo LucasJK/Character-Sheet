@@ -13,10 +13,14 @@
 
   <div class="sheet-container">
 
-    <div class="character-name">{{characterName}}<br/>
-      <span>{{classObj.firstClass}}</span>
-      <span>&nbsp;&nbsp;{{classObj.secondClass}}</span>
-      <span>&nbsp;&nbsp;{{classObj.thirdClass}}</span>
+    <div class="name-class-notes">
+      <div class="name-and-class">
+        <div class="character-name">{{characterName}}</div>
+        <span class="class">{{classes.firstClass}}</span>
+        <span class="class">&nbsp;&nbsp;{{classes.secondClass}}</span>
+        <span class="class">&nbsp;&nbsp;{{classes.thirdClass}}</span>
+      </div>
+      <span class="note-icon btn"><i class="fas fa-sticky-note"></i></span>
     </div>
 
     <div class="top-container">
@@ -277,7 +281,7 @@
     data: {
       characterName: 'Vara Intep',
       level: 6,
-      classObj: {
+      classes: {
         firstClass: 'Fighter 6'
       },
       passivePerception: 10,
@@ -727,6 +731,11 @@
     flex-direction: column;
   }
 
+  .name-class-notes {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .character-name {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.5rem;
@@ -738,11 +747,15 @@
       1px 1px 0 #000;
   }
 
-  .character-name span {
+  span.class {
     font-size: 1.4rem;
     color: #c0c0c0;
     font-style: italic;
     font-weight: 400;
+  }
+
+  .name-class-notes .note-icon {
+    font-size: 1.5rem;
   }
 
   .btn {
