@@ -20,7 +20,17 @@
         <span class="class">&nbsp;&nbsp;{{classes.secondClass}}</span>
         <span class="class">&nbsp;&nbsp;{{classes.thirdClass}}</span>
       </div>
-      <span class="note-icon btn"><i class="fas fa-sticky-note"></i></span>
+      <span class="note-icon btn">
+        <i class="fas fa-sticky-note" @click="toggleShowNotes()" ></i>
+
+        <div class="select">
+          <div v-if=showNotes class="dropdown-content note-dropdown">
+            <div class="notes-header">Notes</div>
+            <textarea class="notes-textarea" v-model="noteContent" placeholder="Scribble notes here"></textarea>
+          </div>
+        </div>
+        
+      </span>
     </div>
 
     <div class="top-container">
@@ -36,7 +46,7 @@
             <!-- </div> -->
             <div class="drink-potion btn" @click="toggleShowPotions()">
               <i class="fas fa-flask">  
-                <div class="potion-select">
+                <div class="select">
                   <div v-if=showPotions class="dropdown-content">
                     <a class="drink-lesser" @click="drinkPotion">Lesser</a>
                     <a class="drink-greater" @click="drinkPotion('Greater')">Greater</a>
@@ -455,10 +465,12 @@
         '19': 305000,
         '20': 335000
       },
+      showNotes: false,
       showPotions: false,
       potRoll: 0,
       showCombat: false,
       showSkills: false,
+      noteContent: '',
       attacks: [
         { 
           name: 'Dancing Blade F',
@@ -630,6 +642,9 @@
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
       },
+      toggleShowNotes: function () {
+        this.showNotes = !this.showNotes
+      },
       healDamage: function (value) {
         var newHp = this.hitPointsCurrent + value
         if (newHp <= this.hitPointsMaximum) {
@@ -754,14 +769,16 @@
     font-weight: 400;
   }
 
-  .name-class-notes .note-icon {
-    font-size: 1.5rem;
-  }
 
   .btn {
     user-select: none;
     z-index: 1;
     color: rgba(245, 245, 245, 0.404);
+  }
+
+  .name-class-notes .note-icon {
+    font-size: 1.5rem;
+    z-index: 3;
   }
 
   .btn:hover {
@@ -829,7 +846,7 @@
     border-radius: 100%;
   }
 
-/* Select Potion */
+/* Dropdowns */
 
   .drink-potion {
     align-self: flex-end;
@@ -844,6 +861,37 @@
     position: absolute;
     background-color:#5f5f5f;
     box-shadow: 8px 8px 16px 8px #00000033;
+  }
+
+  .dropdown-content.note-dropdown {
+    flex-direction: column;
+    right: 5vw;
+    width: 45vw;
+    height: 80vh;
+    min-width: 550px;
+    min-height: 30vh;
+    background-color: #525050;
+  }
+
+  .notes-header {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 8px;
+    background-color: #5f5f5f;
+  }
+
+  .notes-textarea {
+    padding: 1rem 2rem;
+    width: calc(100% - 4.1rem - 2px);
+    max-width: calc(100% - 4.1rem - 2px);
+    min-width: calc(100% - 4.1rem - 2px);
+    height: calc(100% - 2.2rem - 40px - 2px);
+    max-height: calc(100% - 2.2rem - 40px - 2px);
+    min-height: calc(100% - 2.2rem - 40px - 2px);
+    background-color: inherit;
+    color: inherit;
+    border-color: #525050;
   }
 
   .dropdown-content a {
@@ -999,7 +1047,7 @@
 
 /* Mid Container */
 
-  .mid-container {
+  .mid-container, .note-dropdown {
     color: #cccccc;
   }
 
@@ -1017,6 +1065,7 @@
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4rem;
   }
+
 
   .stats-and-attacks, .saves-and-skills {
     display: flex;
