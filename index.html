@@ -9,7 +9,7 @@
   integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" 
   crossorigin="anonymous"> <!--import fontawesome-->
 </head>
-<body>
+<body style="margin: 0; min-height: calc(100vh + 0.4px);">
 
   <div class="sheet-container">
 
@@ -852,7 +852,7 @@
   .sheet-container {
     display: flex;
     flex-direction: column;
-    padding: 4vh 5vw 0 5vw;
+    padding: 3vh 5vw 0 5vw;
   }
 
   .mid-container, .bot-container {
@@ -1189,7 +1189,7 @@
   }
 
 
-  .stats-and-attacks, .saves-and-skills, .inventory {
+  .stats-and-attacks, .saves-and-skills {
     display: flex;
   }
 
@@ -1368,7 +1368,7 @@
     border-radius: 3px;
   }
 
-  .attack-button:hover {
+  .attack-button:hover, .item-discard:hover {
     cursor: pointer;
     color: whitesmoke;
     background-color: #00000080;
@@ -1390,17 +1390,20 @@
 
   /* Inventory */
 
+  .inventory {
+    display: flex;
+    margin-top: 1rem;
+  }
+
   .item-list {
+    display: block;
     height: 280px;
     width: 100%;
-    margin-top: 1rem;
-    padding-top: 1.6rem;
     background-color: #525050;
     justify-content: space-evenly
   }
 
   .item {
-    flex-grow: 1;
     padding: 0.6rem;
   }
 
