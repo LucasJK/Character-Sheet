@@ -1,5 +1,17 @@
 # Character-Sheet
 
+- status bar including incumbered, unconscious, obscured, level of cover, paralyzed, prone etc.
+
+- hit dice
+
+- in inventory: all purpose counter with field to fill out name of counter for each instance
+
+- option to add highlight/highlight colour to specific items/attacks
+
+- die roller with log
+    - auto sum
+    - reset button
+
 Potential Feature List:
 
 - keeps track of resistances

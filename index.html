@@ -168,7 +168,7 @@
               </div>
             </div>
             <div class="attacks">
-              <div class="attacks-header">
+              <div class="attacks-header" style="background-color: #5f5f5f; padding: 0.6rem;">
                 <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Attacks&nbsp;&&nbsp;Spellcasting
               </div>
               <ul class="attack-list">
@@ -191,7 +191,7 @@
       <div class="mid-container">
         <div class="mid-expand" @click="toggleShowSkills()">
           <span class="saves-and-skills-header">
-            <i class="fas fa-bars"></i>&nbsp;&nbsp;Skills
+            <i class="fas fa-certificate"></i>&nbsp;&nbsp;Skills
           </span>
           <span>{{showSkillsContent}}</span>
         </div>
@@ -200,8 +200,8 @@
           <div class="saves-and-skills">
 
             <div class="saving-throws">
-              <div class="saves-header">
-                <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Saving&nbsp;Throws
+              <div class="saves-header" style="background-color: #5f5f5f; padding: 0.6rem;">
+                <i class="fab fa-creative-commons-by"></i>&nbsp;&nbsp;Saving&nbsp;Throws
               </div>
               <ul class="save-list">
                 <li class="save">
@@ -251,8 +251,8 @@
 
             <div class="skills">
 
-              <div class="skills-header">
-                <i class="fas fa-crosshairs"></i>&nbsp;&nbsp;Skills
+              <div class="skills-header" style="background-color: #5f5f5f; padding: 0.6rem;">
+                <i class="fas fa-certificate"></i>&nbsp;&nbsp;Skills
               </div>
 
               <ul class="skill-list">
@@ -275,11 +275,38 @@
           </div>
         </div>
       </div>
+
+      <div class="mid-container">
+        <div class="mid-expand" @click="toggleShowInventory()">
+          <span class="inventory-header">
+            <i class="fas fa-bars"></i>&nbsp;&nbsp;Inventory
+          </span>
+          <span>{{showInventoryContent}}</span>
+        </div>
+
+        <div v-if="showInventory" class="inventory-container">
+          <div class="inventory">
+            <ul class="item-list">
+                <li v-for="item in inventory" class="item">
+                  <span class="item-text">
+                    <span class="item-name" contenteditable="true">{{item.name}}</span>
+                    <span class="item-quantity" contenteditable="true">{{item.quantity}}</span>
+                    <span class="item-weight" contenteditable="true">{{item.weight}}</span>
+                    <span class="item-cost" contenteditable="true">{{item.cost}}</span>
+                    <a class="item-discard"><i class="fas fa-trash"></i></a>
+                  </span>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="bot-container"></div>
-  </div>
-
-</body>
-
+    </div>
+    
+  </body>
+  
+  <!-- <script type="text/javascript" src="Calc/LevelRequirements.json"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="Calc/DiceRoller.js"></script>
 <script src="Calc/ModifierCalculator.js"></script>
@@ -443,6 +470,7 @@
         },
       ],
       hasRunCalcSkills: false,
+      // fileData: "",
       levelRequirements: {
         '1': 0,
         '2': 300,
@@ -470,6 +498,7 @@
       potRoll: 0,
       showCombat: false,
       showSkills: false,
+      showInventory: false,
       noteContent: '',
       attacks: [
         { 
@@ -528,9 +557,81 @@
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         }
+      ],
+      inventory: [
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
+        {
+          name: 'Item Name',
+          counter: false,
+          quantity: 1,
+          weight: 1,
+          cost: 1,
+          description: ''
+        },
       ]
     },
+
     computed: {
+
+      // levelReq: function () {
+      //   fileData = JSON.parse(LevelRequirements)
+      //   return fileData
+      // },
 
       // Top
 
@@ -621,7 +722,17 @@
       },
       chaSave: function () {
         return this.posNeg(calcAbilityMod(this.charisma.value) + this.proficiencyBonus * this.charisma.prof)
-      }
+      },
+
+      // Inventory
+
+      showInventoryContent: function () {
+        if (this.showInventory) {
+          return 'Hide'
+        } else {
+          return 'Click to expand'
+        }
+      },
 
     },
     methods: {
@@ -694,6 +805,10 @@
         if (!this.hasRunCalcSkills) {
           this.calcSkills()
         }
+      },
+
+      toggleShowInventory: function () {
+        this.showInventory = !this.showInventory
       },
       
       calcSkill: function (stat, skill) {
@@ -965,7 +1080,11 @@
     justify-content: space-between;
     height: 35px;
     margin: 0 10px 10px 10px;
-    background: linear-gradient(to right, #7026ac , #31a3c5);
+
+    background: linear-gradient(to left, #31a3c5, #7026ac );
+
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
   }
 
   .hit-points-bar {
@@ -1009,7 +1128,10 @@
   .bar-text {
     vertical-align: middle;
     line-height: 35px;
-    padding: 0 10px;
+    padding: 0 10px 0 15px;
+
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
   }
 
   .xp-bar-text {
@@ -1061,13 +1183,13 @@
     line-height: 24px;
   }
 
-  .combat-header, .saves-and-skills-header {
+  .combat-header, .saves-and-skills-header, .inventory-header {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4rem;
   }
 
 
-  .stats-and-attacks, .saves-and-skills {
+  .stats-and-attacks, .saves-and-skills, .inventory {
     display: flex;
   }
 
@@ -1126,18 +1248,27 @@
     width: 70%;
   }
 
-  .attacks-header, .saves-header, .skills-header {
-    padding: 0.6rem;
+  .attacks-header, .saves-header, .skills-header, {
+    padding: 0.6rem !important;
     background-color: #5f5f5f;
   }
   
-  .attack-list, .save-list {
+  .attack-list, .save-list, .item-list {
     display: flex;
     flex-direction: column;
     padding: 0;
     margin: 0;
     height: 100%;
     overflow: auto;
+  }
+
+  .attack-list::-webkit-scrollbar-track, .item-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  .attack-list::-webkit-scrollbar-thumb, .item-list::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
   }
   
   .skill-list {
@@ -1146,17 +1277,18 @@
     flex-wrap: wrap;
     padding: 0;
     margin: 0;
+    max-height: 100%;
   }
 
-  .attack-list::-webkit-scrollbar {
+  .attack-list::-webkit-scrollbar, .item-list::-webkit-scrollbar {
     width: 1em;
   }
   
-  .attack-list::-webkit-scrollbar-track {
+  .attack-list::-webkit-scrollbar-track .item-list::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   }
   
-  .attack-list::-webkit-scrollbar-thumb {
+  .attack-list::-webkit-scrollbar-thumb .item-list::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
@@ -1217,14 +1349,14 @@
     text-align: left;
   }
 
-  .attack:nth-child(even), .save:nth-child(even), .skill:nth-child(even) {
+  .attack:nth-child(even), .save:nth-child(even), .skill:nth-child(even), .item:nth-child(even) {
     background-color: #525050;
   }
-  .attack:nth-child(odd), .save:nth-child(odd), .skill:nth-child(odd) {
+  .attack:nth-child(odd), .save:nth-child(odd), .skill:nth-child(odd), .item:nth-child(odd) {
     background-color: #444444;
   }
 
-  .attack-button {
+  .attack-button, .item-discard {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1242,7 +1374,7 @@
     background-color: #00000080;
   }
 
-  .attack-text {
+  .attack-text, .item-text {
     display: flex;
     flex-grow: 1;
     justify-content: space-around;
@@ -1254,6 +1386,22 @@
 
   span.attack-bonus {
     width: 35px;
+  }
+
+  /* Inventory */
+
+  .item-list {
+    height: 280px;
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1.6rem;
+    background-color: #525050;
+    justify-content: space-evenly
+  }
+
+  .item {
+    flex-grow: 1;
+    padding: 0.6rem;
   }
 
   /* Tooltips */
