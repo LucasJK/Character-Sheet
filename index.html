@@ -59,32 +59,22 @@
           </div>
 
           <div class="death-saves-container" :style="unconsciousTransition">
-
               <a class="highlight" @click="rollDeathSave"><i class="fas fa-skull death-bg"></i></a>
               <div class="death-saves">
-
-                <div class="successful-saves">
-                  
+                <div class="successful-saves">                
                   <a class="highlight" @click="saveSucc"><i class="fas fa-check"></i></a>
                   <div class="death-save-result"><div class="result-dot" v-if="succ1"></div></div>
                   <div class="death-save-result"><div class="result-dot" v-if="succ2"></div></div>
                   <div class="death-save-result"><div class="result-dot" v-if="succ3"></div></div>
-
                 </div>
-
                 <div class="failed-saves">
-
                   <a class="highlight" @click="saveFail"><i class="fas fa-times"></i></a>
                   <div class="death-save-result"><div class="result-dot" v-if="fail1"></div></div>
                   <div class="death-save-result"><div class="result-dot" v-if="fail2"></div></div>
                   <div class="death-save-result"><div class="result-dot" v-if="fail3"></div></div>
-
                 </div>
-
               </div>
-
               <a class="highlight reset" @click="resetSaves"><i class="fas fa-sync-alt"></i></a>
-
           </div>
 
           <img src="Static/VaraIntepPortrait.png" alt="portrait image">
@@ -197,13 +187,15 @@
                 <span class="stat-number">{{speed}}</span><span>Speed</span>
               </div>
             </div>
-            <div class="attacks">
-              <div class="attacks-header" style="background-color: #5f5f5f; padding: 0.6rem;">
-                <i class="fas fa-fist-raised"></i>&nbsp;&nbsp;Attacks&nbsp;&&nbsp;&nbsp;<i class="fas fa-bolt"></i>&nbsp;&nbsp;Spellcasting
+
+            <div class="attacks-and-spells">
+              <div class="attacks-and-spells-header" style="background-color: #5f5f5f;">
+                <div class="attack-tab" @click="showAttackTab()" :style="attackSelect"><i class="fas fa-fist-raised"></i>&nbsp;&nbsp;Attacks</div>
+                <div class="spell-tab" @click="showSpellTab()" :style="spellSelect"><i class="fas fa-bolt"></i>&nbsp;&nbsp;Spellcasting</div>
               </div>
-              <ul class="attack-list">
+              <ul v-if="!showSpells" class="attack-list">
                 <li v-for="attack in attacks" class="attack">
-                  <a class="attack-button"><i class="fas fa-bullseye"></i></a>
+                  <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
                   <span class="attack-text">
                     <span class="attack-name" contenteditable="true">{{attack.name}}</span>
                     <span class="attack-bonus" contenteditable="true">{{attack.bonus}}</span>
@@ -212,7 +204,21 @@
                   </span>
                 </li>
               </ul>
+
+              <ul v-if="showSpells" class="attack-list">
+                <li v-for="spell in spells" class="attack">
+                  <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
+                  <span class="attack-text">
+                    <span class="attack-name" contenteditable="true">{{spell.name}}</span>
+                    <span class="attack-bonus" contenteditable="true">{{spell.bonus}}</span>
+                    <span class="attack-damage" contenteditable="true">{{spell.damage}}</span>
+                    <span class="attack-damage-type" contenteditable="true">{{spell.damageType}}</span>
+                  </span>
+                </li>
+              </ul>
             </div>
+
+
           </div>
         </div>
 
@@ -530,6 +536,7 @@
       showPotions: false,
       potRoll: 0,
       showCombat: false,
+      showSpells: false,
       showSkills: false,
       showInventory: false,
       noteContent: '',
@@ -589,6 +596,64 @@
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
+        }
+      ],
+      spells: [
+        { 
+          name: 'Hellish Rebuke',
+          bonus: '13',
+          damage: '3d10',
+          damageType: 'Fire',
+          type: 'Saving Throw'
+        },
+        { 
+          name: 'Fireball',
+          bonus: '+5',
+          damage: '8d6',
+          damageType: 'Fire',
+          type: 'Attack Roll'
+        },
+        { 
+          name: 'Hellish Rebuke',
+          bonus: '13',
+          damage: '3d10',
+          damageType: 'Fire',
+          type: 'Saving Throw'
+        },
+        { 
+          name: 'Fireball',
+          bonus: '+5',
+          damage: '8d6',
+          damageType: 'Fire',
+          type: 'Attack Roll'
+        },
+        { 
+          name: 'Hellish Rebuke',
+          bonus: '13',
+          damage: '3d10',
+          damageType: 'Fire',
+          type: 'Saving Throw'
+        },
+        { 
+          name: 'Fireball',
+          bonus: '+5',
+          damage: '8d6',
+          damageType: 'Fire',
+          type: 'Attack Roll'
+        },
+        { 
+          name: 'Hellish Rebuke',
+          bonus: '13',
+          damage: '3d10',
+          damageType: 'Fire',
+          type: 'Saving Throw'
+        },
+        { 
+          name: 'Fireball',
+          bonus: '+5',
+          damage: '8d6',
+          damageType: 'Fire',
+          type: 'Attack Roll'
         }
       ],
       inventory: [
@@ -675,13 +740,6 @@
           return {boxShadow: 'inset 0 0 70px red'}
         }
       },
-      // isUnconscious: function () {
-      //   if (this.hitPointsCurrent <= 0) {
-      //     return true
-      //   } else {
-      //     return false
-      //   }
-      // },
       unconsciousTransition: function () {
         if (this.hitPointsCurrent <= 0) {
           return {opacity: '1', pointerEvents: 'auto'}
@@ -782,6 +840,20 @@
           return 'Hide'
         } else {
           return 'Click to expand'
+        }
+      },
+      attackSelect: function (){
+        if (this.showSpells) {
+          return {backgroundColor: '#5f5f5f'}
+        } else {
+          return {backgroundColor: '#444444'}
+        }
+      },
+      spellSelect: function (){
+        if (!this.showSpells) {
+          return {backgroundColor: '#5f5f5f'}
+        } else {
+          return {backgroundColor: '#444444'}
         }
       },
 
@@ -926,6 +998,12 @@
 
       toggleShowCombat: function () {
         this.showCombat = !this.showCombat
+      },
+      showSpellTab: function () {
+        this.showSpells = true
+      },
+      showAttackTab: function () {
+        this.showSpells = false
       },
       toggleShowSkills: function () {
         this.showSkills = !this.showSkills
@@ -1483,9 +1561,9 @@
     margin-top: 0.4rem;
   }
 
-  /* Attacks and Skills */
+  /* Attacks, Spells and Skills */
 
-  .attacks {
+  .attacks-and-spells {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -1509,11 +1587,30 @@
     width: 70%;
   }
 
-  .attacks-header, .saves-header, .skills-header, {
+  .saves-header, .skills-header, {
     padding: 0.6rem !important;
     background-color: #5f5f5f;
   }
   
+  .attacks-and-spells-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #5f5f5f;
+  }
+
+  .attack-tab, .spell-tab {
+    width: 25%;
+    padding: 0.6rem;
+    text-align: center;
+  }
+
+  .attack-tab:hover, .spell-tab:hover {
+    cursor: pointer;
+    filter: brightness(0.8);
+    color: white;
+  }
+
   .attack-list, .save-list, .item-list {
     display: flex;
     flex-direction: column;
@@ -1564,8 +1661,8 @@
   }
 
   .attack {
-    height: 30px;
     min-height: 30px;
+    flex-grow: unset;
   }
 
   .skill {
