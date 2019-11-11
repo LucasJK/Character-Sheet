@@ -59,7 +59,7 @@
           </div>
 
           <div class="death-saves-container" :style="unconsciousTransition">
-              <a class="highlight" @click="rollDeathSave"><i class="fas fa-skull death-bg"></i></a>
+              <a class="highlight" @click="rollDeathSave"><i class="fas fa-dice-d20 death-bg"></i></a>
               <div class="death-saves">
                 <div class="successful-saves">                
                   <a class="highlight" @click="saveSucc"><i class="fas fa-check"></i></a>
@@ -288,7 +288,7 @@
             <div class="skills">
 
               <div class="skills-header" style="background-color: #5f5f5f; padding: 0.6rem;">
-                <i class="fas fa-certificate"></i>&nbsp;&nbsp;Skills
+                <i class="fas fa-haykal"></i>&nbsp;&nbsp;Skills
               </div>
 
               <ul class="skill-list">
@@ -342,10 +342,11 @@
     
   </body>
   
-  <!-- <script type="text/javascript" src="Calc/LevelRequirements.json"></script> -->
+<script src="Calc/LevelRequirements.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="Calc/DiceRoller.js"></script>
 <script src="Calc/ModifierCalculator.js"></script>
+
 
 <script>
 
@@ -353,26 +354,26 @@
     el: '.sheet-container',
     data: {
       characterName: 'Vara Intep',
-      level: 6,
+      level: 8,
       classes: {
-        firstClass: 'Fighter 6'
+        firstClass: 'Fighter 8'
       },
       passivePerception: 10,
-      armourClass: 17,
-      initiative: 3,
-      proficiencyBonus: 3,
+      armourClass: 19,
+      initiative: 5,
+      profBonus: profBonus,
       speed: 30,
       hitPointsCurrent: 1,
-      hitPointsMaximum: 60,
-      xpTotal: 15600,
+      hitPointsMaximum: 80,
+      xpTotal: 40000,
       strength: 
       {
-        value: 13,
+        value: 12,
         prof: 1
       },
       dexterity:
       {
-        value: 17,
+        value: 20,
         prof: 0
       },
       constitution:
@@ -382,17 +383,17 @@
       },
       intelligence:
       {
-        value: 14,
+        value: 10,
         prof: 0
       },
       wisdom:
       {
-        value: 10,
+        value: 11,
         prof: 0
       },
       charisma:
       {
-        value: 14,
+        value: 16,
         prof: 0
       },
       totalSucc: 0,
@@ -403,7 +404,7 @@
           name: "Acrobatics",
           stat: "dex",
           value: 0,
-          prof: 2
+          prof: 1
         },
         {
           name: "Animal Handling",
@@ -427,7 +428,7 @@
           name: "Deception",
           stat: "cha",
           value: 0,
-          prof: 0
+          prof: 1
         },
         {
           name: "History",
@@ -445,7 +446,7 @@
           name: "Intimidation",
           stat: "cha",
           value: 0,
-          prof: 2
+          prof: 1
         },
         {
           name: "Investigation",
@@ -499,7 +500,7 @@
           name: "Stealth",
           stat: "dex",
           value: 0,
-          prof: 0
+          prof: 1
         },
         {
           name: "Survival",
@@ -509,29 +510,7 @@
         },
       ],
       hasRunCalcSkills: false,
-      // fileData: "",
-      levelRequirements: {
-        '1': 0,
-        '2': 300,
-        '3': 900,
-        '4': 2700,
-        '5': 6500,
-        '6': 14000,
-        '7': 23000,
-        '8': 34000,
-        '9': 48000,
-        '10': 64000,
-        '11': 85000,
-        '12': 100000,
-        '13': 120000,
-        '14': 140000,
-        '15': 165000,
-        '16': 195000,
-        '17': 225000,
-        '18': 265000,
-        '19': 305000,
-        '20': 335000
-      },
+      xpRequirements: xpRequirements,
       showNotes: false,
       showPotions: false,
       potRoll: 0,
@@ -543,56 +522,56 @@
       attacks: [
         { 
           name: 'Dancing Blade F',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+7',
+          bonus: '+8',
           damage: '1d6 + 4, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
@@ -601,56 +580,56 @@
       spells: [
         { 
           name: 'Hellish Rebuke',
-          bonus: '13',
+          bonus: '14',
           damage: '3d10',
           damageType: 'Fire',
           type: 'Saving Throw'
         },
         { 
           name: 'Fireball',
-          bonus: '+5',
+          bonus: '+6',
           damage: '8d6',
           damageType: 'Fire',
           type: 'Attack Roll'
         },
         { 
           name: 'Hellish Rebuke',
-          bonus: '13',
+          bonus: '14',
           damage: '3d10',
           damageType: 'Fire',
           type: 'Saving Throw'
         },
         { 
           name: 'Fireball',
-          bonus: '+5',
+          bonus: '+6',
           damage: '8d6',
           damageType: 'Fire',
           type: 'Attack Roll'
         },
         { 
           name: 'Hellish Rebuke',
-          bonus: '13',
+          bonus: '14',
           damage: '3d10',
           damageType: 'Fire',
           type: 'Saving Throw'
         },
         { 
           name: 'Fireball',
-          bonus: '+5',
+          bonus: '+6',
           damage: '8d6',
           damageType: 'Fire',
           type: 'Attack Roll'
         },
         { 
           name: 'Hellish Rebuke',
-          bonus: '13',
+          bonus: '14',
           damage: '3d10',
           damageType: 'Fire',
           type: 'Saving Throw'
         },
         { 
           name: 'Fireball',
-          bonus: '+5',
+          bonus: '+6',
           damage: '8d6',
           damageType: 'Fire',
           type: 'Attack Roll'
@@ -726,11 +705,6 @@
 
     computed: {
 
-      // levelReq: function () {
-      //   fileData = JSON.parse(LevelRequirements)
-      //   return fileData
-      // },
-
       // Top
 
       lowHp: function () {
@@ -740,6 +714,9 @@
           return {boxShadow: 'inset 0 0 70px red'}
         }
       },
+
+      // Death Saving Throws
+
       unconsciousTransition: function () {
         if (this.hitPointsCurrent <= 0) {
           return {opacity: '1', pointerEvents: 'auto'}
@@ -827,10 +804,10 @@
         return this.xpNextLevel - this.xpThisLevel
       },
       xpThisLevel: function () {
-        return this.levelRequirements[String(this.level)]
+        return this.xpRequirements[String(this.level)]
       },
       xpNextLevel: function () {
-        return this.levelRequirements[String(this.level + 1)]
+        return this.xpRequirements[String(this.level + 1)]
       },
 
       // Combat
@@ -842,18 +819,21 @@
           return 'Click to expand'
         }
       },
+      proficiencyBonus: function () {
+        return this.profBonus[String(this.level)]
+      },
       attackSelect: function (){
         if (this.showSpells) {
-          return {backgroundColor: '#5f5f5f'}
+          return {backgroundColor: '#5f5f5f', color: '#cccccc'}
         } else {
-          return {backgroundColor: '#444444'}
+          return {backgroundColor: '#808080', color: 'whitesmoke'}
         }
       },
       spellSelect: function (){
         if (!this.showSpells) {
-          return {backgroundColor: '#5f5f5f'}
+          return {backgroundColor: '#5f5f5f', color: '#cccccc'}
         } else {
-          return {backgroundColor: '#444444'}
+          return {backgroundColor: '#808080', color: 'whitesmoke'}
         }
       },
 
@@ -1177,10 +1157,12 @@
 
   .reset {
     opacity: 0.5;
+    margin-top: 0.5rem;
+    font-size: 1.5rem
   }
 
   .death-bg {
-    font-size: 6rem;
+    font-size: 1.7rem;
   }
 
   .death-saves {
@@ -1622,6 +1604,7 @@
 
   .attack-list::-webkit-scrollbar-track, .item-list::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   }
 
   .attack-list::-webkit-scrollbar-thumb, .item-list::-webkit-scrollbar-thumb {
@@ -1644,6 +1627,7 @@
   
   .attack-list::-webkit-scrollbar-track .item-list::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   }
   
   .attack-list::-webkit-scrollbar-thumb .item-list::-webkit-scrollbar-thumb {
