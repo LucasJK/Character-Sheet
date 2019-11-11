@@ -59,20 +59,22 @@
           </div>
 
           <div class="death-saves-container" :style="unconsciousTransition">
-              <a class="highlight" @click="rollDeathSave"><i class="fas fa-dice-d20 death-bg"></i></a>
+              <a class="highlight" @click="rollDeathSave" :style="stopRolling"><i class="fas fa-dice-d20 death-bg"></i></a>
               <div class="death-saves">
-                <div class="successful-saves">                
-                  <a class="highlight" @click="saveSucc"><i class="fas fa-check"></i></a>
+                <div class="successful-saves" v-if="!isDead">                
+                  <a class="highlight" @click="saveSucc" :style="stopRolling"><i class="fas fa-check"></i></a>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="succ1"></div></div>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="succ2"></div></div>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="succ3"></div></div>
                 </div>
-                <div class="failed-saves">
-                  <a class="highlight" @click="saveFail"><i class="fas fa-times"></i></a>
+                <div class="successful-saves" v-if="isDead">Dead</div>
+                <div class="failed-saves" v-if="!isStable">
+                  <a class="highlight" @click="saveFail" :style="stopRolling"><i class="fas fa-times"></i></a>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="fail1"></div></div>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="fail2"></div></div>
                   <div class="death-save-result"><div class="result-dot bar-shadow" v-if="fail3"></div></div>
                 </div>
+                <div class="failed-saves" v-if="isStable">Stable</div>
               </div>
               <a class="highlight reset" @click="resetSaves"><i class="fas fa-sync-alt"></i></a>
           </div>
@@ -724,7 +726,15 @@
           return {opacity: '0', pointerEvents: 'none'}
         }
       },
-      
+
+      stopRolling: function () {
+        if (this.totalSucc >= 3 || this.totalFail >= 3) {
+          return {pointerEvents: 'none'}
+        } else {
+          return {pointerEvents: 'auto'}
+        }
+      },
+
       succ1: function () {
         if (this.totalSucc >= 1) {
           return true
@@ -761,6 +771,21 @@
         }
       },
       fail3: function () {
+        if (this.totalFail >= 3) {
+          return true
+        } else {
+          return false
+        }
+      },
+
+      isStable: function () {
+        if (this.totalSucc >= 3) {
+          return true
+        } else {
+          return false
+        }
+      },
+      isDead: function () {
         if (this.totalFail >= 3) {
           return true
         } else {
