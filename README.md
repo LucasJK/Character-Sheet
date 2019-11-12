@@ -14,6 +14,10 @@
 
 Potential Feature List:
 
+- have option for homebrew class (custom name etc.)
+
+- detect class and add rage to status list
+
 - keeps track of resistances
 - keeps track of status effects
 - keeps track of temporary hit points

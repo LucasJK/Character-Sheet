@@ -40,6 +40,94 @@
         <div class="character-image">
 
         <div class="character-image-border":style="lowHp">
+
+            <div class="status-bar btn" @click="toggleShowStatuses()">
+              <i class="fas fa-heartbeat">
+                <div class="select">
+                  <div v-if="showStatuses" class="dropdown-content status-dropdown">
+
+                    <a class="status-buffed">
+                      <i class="fas fa-angle-double-up bar-highlight"></i>
+                      <div>Buffed</div>
+                    </a>
+                    <a class="status-concentrating">
+                      <i class="fas fa-magic bar-highlight"></i>
+                      <div>Concentrating</div>
+                    </a>
+                    <a class="status-cover">
+                      <i class="fas fa-shield-alt bar-highlight"></i>
+                      <div>Cover</div>
+                    </a>
+                    <a class="status-invisible">
+                      <i class="fas fa-low-vision bar-highlight"></i>
+                      <div>Invisible</div>
+                    </a>
+                    <a class="status-raging">
+                      <i class="far fa-angry bar-highlight"></i>
+                      <div>Raging</div>
+                    </a>
+
+                    <a class="status-blinded">
+                      <i class="far fa-eye-slash bar-highlight"></i>
+                      <div>Blinded</div>
+                    </a>
+                    <a class="status-charmed">
+                      <i class="far fa-heart bar-highlight"></i>
+                      <div>Charmed</div>
+                    </a>
+                    <a class="status-deafened">
+                      <i class="fas fa-deaf bar-highlight"></i>
+                      <div>Deafened</div>
+                    </a>
+                    <a class="status-exhausted">
+                      <i class="far fa-user bar-highlight"></i>
+                      <div>Exhausted</div>
+                    </a>
+                    <a class="status-frightened">
+                      <i class="fas fa-ghost bar-highlight"></i>
+                      <div>Frightened</div>
+                    </a>
+                    <a class="status-grappled">
+                      <i class="fas fa-hand-rock bar-highlight"></i>
+                      <div>Grappled</div>
+                    </a>
+                    <a class="status-incapacitated">
+                      <i class="far fa-meh-blank bar-highlight"></i>
+                      <div>Incapacitated</div>
+                    </a>
+                    <a class="status-paralyzed">
+                      <i class="fas fa-bolt bar-highlight"></i>
+                      <div>Paralyzed</div>
+                    </a>
+                    <a class="status-petrified">
+                      <i class="fas fa-walking bar-highlight"></i>
+                      <div>Petrified</div>
+                    </a>
+                    <a class="status-poisoned">
+                      <i class="fas fa-vial bar-highlight"></i>
+                      <div>Poisoned</div>
+                    </a>
+                    <a class="status-prone">
+                      <i class="fas fa-male bar-highlight"></i>
+                      <div>Prone</div>
+                    </a>
+                    <a class="status-restrained">
+                      <i class="fas fa-link bar-highlight"></i>
+                      <div>Restrained</div>
+                    </a>
+                    <a class="status-stunned">
+                      <i class="fas fa-flushed bar-highlight"></i>
+                      <div>Stunned</div>
+                    </a>
+                    <a class="status-unconscious">
+                      <i class="fas fa-meh-rolling-eyes bar-highlight"></i>
+                      <div>Unconscious</div>
+                    </a>
+                  </div>
+                </div>
+              </i>
+            </div>
+
             <div class="eye">
               <div class="eye-text">{{passivePerception}}</div>
             </div>
@@ -56,6 +144,7 @@
                 </div>
               </i>
             </div>
+
           </div>
 
           <div class="death-saves-container" :style="unconsciousTransition">
@@ -514,6 +603,7 @@
       hasRunCalcSkills: false,
       xpRequirements: xpRequirements,
       showNotes: false,
+      showStatuses: false,
       showPotions: false,
       potRoll: 0,
       showCombat: false,
@@ -802,22 +892,22 @@
         return {width: String((this.xpCurrent / this.xpGoalCurrent) * 100) + '%'}
       },
       strSize: function () {
-        return {width: String(((20 - this.strength.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.strength.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
       dexSize: function () {
-        return {width: String(((20 - this.dexterity.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.dexterity.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
       conSize: function () {
-        return {width: String(((20 - this.constitution.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.constitution.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
       intSize: function () {
-        return {width: String(((20 - this.intelligence.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.intelligence.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
       wisSize: function () {
-        return {width: String(((20 - this.wisdom.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.wisdom.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
       chaSize: function () {
-        return {width: String(((20 - this.charisma.value) / 20) * 100) + '%'}
+        return {width: String(((20 - this.charisma.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
 
       // XP
@@ -917,6 +1007,9 @@
       abilityMod: function (stat) {
         return this.posNeg(calcAbilityMod(stat))
       },
+      toggleShowStatuses: function () {
+        this.showStatuses = !this.showStatuses
+      },      
       toggleShowPotions: function () {
         this.showPotions = !this.showPotions
       },
@@ -1103,7 +1196,7 @@
 
   .name-class-notes .note-icon {
     font-size: 1.5rem;
-    z-index: 3;
+    z-index: 5;
   }
 
   .btn:hover {
@@ -1195,6 +1288,7 @@
   }
 
   .death-saves {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     width: 55%;
     margin: 0.6rem 0;
   }
@@ -1306,6 +1400,12 @@
 
 /* Dropdowns */
 
+  .status-bar {
+    position: absolute;
+    top: 0;
+    z-index: 3;
+  }
+
   .drink-potion {
     align-self: flex-end;
     z-index: 2;
@@ -1318,7 +1418,71 @@
     font-size: 1rem;
     position: absolute;
     background-color:#5f5f5f;
-    box-shadow: 8px 8px 16px 8px #00000033;
+    box-shadow: 8px 8px 16px 8px #00000060;
+  }
+
+  .dropdown-content.status-dropdown {
+    flex-direction: column;
+    margin-top: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    font-style: italic;
+    background-color: #00000061;
+    pointer-events: none;
+  }
+
+  .dropdown-content.status-dropdown a {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 5%;
+  }
+
+  .dropdown-content.status-dropdown a i {
+    background: linear-gradient(to top, #5165B9, #5f2292 );
+    border-radius: 3px;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    margin-right: 0.5rem;
+  }
+
+  .dropdown-content.status-dropdown a.status-buffed i {
+    background: linear-gradient(to bottom, #1cc613, #0e9255 );
+  }
+
+  .dropdown-content.status-dropdown a.status-concentrating i {
+    background: linear-gradient(to bottom, #31a3c5, #5165B9 );
+  }
+
+  .dropdown-content.status-dropdown a.status-cover i {
+    background: linear-gradient(to bottom, #5165B9, #0e9255 );
+  }
+
+  .dropdown-content.status-dropdown a.status-invisible i {
+    background: linear-gradient(to bottom, grey, darkgrey );
+  }
+
+  .dropdown-content.status-dropdown a.status-raging i {
+    background: linear-gradient(to bottom, red, #ff7300 );
+  }
+
+  .fas.fa-meh-rolling-eyes::before {
+    margin-right: 1px;
+  }
+
+  .fas.fa-male::before {
+    transform: rotate(-90deg);
+  }
+
+  .dropdown-content.status-dropdown a div {
+    width: calc(100% - 32px);
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #5f5f5f;
   }
 
   .dropdown-content.note-dropdown {
@@ -1360,6 +1524,10 @@
 
   .dropdown-content a:hover {
     background-color: #525050;
+  }
+
+  .dropdown-content.status-dropdown a:hover {
+    background-color: transparent;
   }
 
   .drink-lesser::after {
@@ -1433,6 +1601,11 @@
   .bar-shadow {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  .bar-highlight {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);    
   }
 
   .hit-points-bar {
@@ -1698,6 +1871,7 @@
     height: 40.4px;
     text-align: center;
     font-size: 0.9rem;
+    margin: 0 0.5px;
   }
 
   .save-text, .skill-text {
