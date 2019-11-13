@@ -1,17 +1,23 @@
 # Character-Sheet
 
-- status bar including incumbered, unconscious, obscured, level of cover, paralyzed, prone etc. --choose location
+- status bar including incumbered, unconscious, obscured, level of cover, paralyzed, prone etc. --done
 
-- detect class to add rage to status list
 
 - add sub-statuses for invisibility (lightly/heavily obscured)
 - add sub-statuses for cover (half/three quarters/full)
 - add sub-statuses for exaustion (1-6 levels)
 - add modal for changing which statuses you are affected by
 
+- detect class to add rage to status list
+
 - hit dice
 
-- option to add highlight/highlight colour to specific items/attacks
+- features (tracked features, idea for bar in-line with the feature name in the feature list)
+- feats
+- traits
+- proficiencies
+
+- keeps track of spell slots (similar bar location idea to tracked features)
 
 - die roller with log
     - auto sum
@@ -30,7 +36,8 @@ Potential Feature List:
 - keeps track of status effects --done
 - keeps track of temporary hit points
 - keeps track of concentration spells --done
-- keeps track of spell slots
+
+- option to add highlight/highlight colour to specific items/attacks  ???
 
 - use potion button --done
 

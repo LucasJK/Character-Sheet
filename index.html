@@ -15,13 +15,80 @@
 
     <div class="name-class-notes">
       <div class="name-and-class">
-        <div class="character-name">{{characterName}}</div>
+        <div class="name-status-bar">
+          <div class="character-name">{{characterName}}</div>
+          <div class="status-bar">
+
+            <a v-if="isBuffed" class="status-buffed">
+              <i class="fas fa-angle-double-up bar-highlight"></i>
+            </a>
+            <a v-if="isConcentrating" class="status-concentrating">
+              <i class="fas fa-magic bar-highlight"></i>
+            </a>
+            <a v-if="isFullCover" class="status-cover">
+              <i class="fas fa-shield-alt bar-highlight"></i>
+            </a>
+            <a v-if="isInvisible" class="status-invisible">
+              <i class="fas fa-low-vision bar-highlight"></i>
+            </a>
+            <a v-if="isRaging" class="status-raging">
+              <i class="far fa-angry bar-highlight"></i>
+            </a>
+
+            <a v-if="isBlinded" class="status-blinded">
+              <i class="far fa-eye-slash bar-highlight"></i>
+            </a>
+            <a v-if="isCharmed" class="status-charmed">
+              <i class="far fa-heart bar-highlight"></i>
+            </a>
+            <a v-if="isDeafened" class="status-deafened">
+              <i class="fas fa-deaf bar-highlight"></i>
+            </a>
+            <a v-if="isDebuffed" class="status-debuffed">
+              <i class="fas fa-angle-double-down bar-highlight"></i>
+            </a>                    
+            <a v-if="isExhaused1" class="status-exhausted">
+              <i class="far fa-user bar-highlight"></i>
+            </a>
+            <a v-if="isFrightened" class="status-frightened">
+              <i class="fas fa-ghost bar-highlight"></i>
+            </a>
+            <a v-if="isGrappled" class="status-grappled">
+              <i class="fas fa-hand-rock bar-highlight"></i>
+            </a>
+            <a v-if="isIncapacitated" class="status-incapacitated">
+              <i class="far fa-meh-blank bar-highlight"></i>
+            </a>
+            <a v-if="isParalyzed" class="status-paralyzed">
+              <i class="fas fa-bolt bar-highlight"></i>
+            </a>
+            <a v-if="isPetrified" class="status-petrified">
+              <i class="fas fa-walking bar-highlight"></i>
+            </a>
+            <a v-if="isPoisoned" class="status-poisoned">
+              <i class="fas fa-vial bar-highlight"></i>
+            </a>
+            <a v-if="isProne" class="status-prone">
+              <i class="fas fa-male bar-highlight"></i>
+            </a>
+            <a v-if="isRestrained" class="status-restrained">
+              <i class="fas fa-link bar-highlight"></i>
+            </a>
+            <a v-if="isStunned" class="status-stunned">
+              <i class="fas fa-flushed bar-highlight"></i>
+            </a>
+            <a v-if="isUnconscious" class="status-unconscious">
+              <i class="fas fa-meh-rolling-eyes bar-highlight"></i>
+            </a>
+
+          </div>
+        </div>
         <span class="class">{{classes.firstClass}}</span>
         <span class="class">&nbsp;&nbsp;{{classes.secondClass}}</span>
         <span class="class">&nbsp;&nbsp;{{classes.thirdClass}}</span>
       </div>
       <span class="note-icon btn">
-        <i class="fas fa-sticky-note" @click="toggleShowNotes()" ></i>
+        <i class="fas fa-sticky-note" @click="toggle('showNotes')" ></i>
 
         <div class="select">
           <div v-if="showNotes" class="dropdown-content note-dropdown">
@@ -41,102 +108,161 @@
 
         <div class="character-image-border":style="lowHp">
 
-            <div class="status-bar btn" @click="toggleShowStatuses()">
-              <i class="fas fa-heartbeat">
-                <div class="select">
-                  <div v-if="showStatuses" class="dropdown-content status-dropdown">
+            <div class="status-list">
+              <i class="fas fa-heartbeat btn" @click="toggle('showStatuses')"></i>
+              <div class="select-status">
+                <div v-if="showStatuses" class="dropdown-content status-dropdown">
 
-                    <a class="status-buffed">
-                      <i class="fas fa-angle-double-up bar-highlight"></i>
+                  <a class="status-buffed" :style="statusEffect('isBuffed')">
+                    <i class="fas fa-angle-double-up bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Buffed</div>
-                    </a>
-                    <a class="status-concentrating">
-                      <i class="fas fa-magic bar-highlight"></i>
+                      <span @click="toggle('isBuffed')"><i v-if="isBuffed" class="fas fa-circle btn"></i><i v-if="!isBuffed" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-concentrating" :style="statusEffect('isConcentrating')">
+                    <i class="fas fa-magic bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Concentrating</div>
-                    </a>
-                    <a class="status-cover">
-                      <i class="fas fa-shield-alt bar-highlight"></i>
+                      <span @click="toggle('isConcentrating')"><i v-if="isConcentrating" class="fas fa-circle btn"></i><i v-if="!isConcentrating" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-cover" :style="statusEffect('isFullCover')">
+                    <i class="fas fa-shield-alt bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Cover</div>
-                    </a>
-                    <a class="status-invisible">
-                      <i class="fas fa-low-vision bar-highlight"></i>
+                      <span @click="toggle('isFullCover')"><i v-if="isFullCover" class="fas fa-circle btn"></i><i v-if="!isFullCover" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-invisible" :style="statusEffect('isInvisible')">
+                    <i class="fas fa-low-vision bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Invisible</div>
-                    </a>
-                    <a class="status-raging">
-                      <i class="far fa-angry bar-highlight"></i>
+                      <span @click="toggle('isInvisible')"><i v-if="isInvisible" class="fas fa-circle btn"></i><i v-if="!isInvisible" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-raging" :style="statusEffect('isRaging')">
+                    <i class="far fa-angry bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Raging</div>
-                    </a>
+                      <span @click="toggle('isRaging')"><i v-if="isRaging" class="fas fa-circle btn"></i><i v-if="!isRaging" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
 
-                    <a class="status-blinded">
-                      <i class="far fa-eye-slash bar-highlight"></i>
+                  <a class="status-blinded" :style="statusEffect('isBlinded')">
+                    <i class="far fa-eye-slash bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Blinded</div>
-                    </a>
-                    <a class="status-charmed">
-                      <i class="far fa-heart bar-highlight"></i>
+                      <span @click="toggle('isBlinded')"><i v-if="isBlinded" class="fas fa-circle btn"></i><i v-if="!isBlinded" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-charmed" :style="statusEffect('isCharmed')">
+                    <i class="far fa-heart bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Charmed</div>
-                    </a>
-                    <a class="status-deafened">
-                      <i class="fas fa-deaf bar-highlight"></i>
+                      <span @click="toggle('isCharmed')"><i v-if="isCharmed" class="fas fa-circle btn"></i><i v-if="!isCharmed" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-deafened" :style="statusEffect('isDeafened')">
+                    <i class="fas fa-deaf bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Deafened</div>
-                    </a>
-                    <a class="status-debuffed">
-                      <i class="fas fa-angle-double-down bar-highlight"></i>
+                      <span @click="toggle('isDeafened')"><i v-if="isDeafened" class="fas fa-circle btn"></i><i v-if="!isDeafened" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-debuffed" :style="statusEffect('isDebuffed')">
+                    <i class="fas fa-angle-double-down bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Debuffed</div>
-                    </a>                    
-                    <a class="status-exhausted">
-                      <i class="far fa-user bar-highlight"></i>
+                      <span @click="toggle('isDebuffed')"><i v-if="isDebuffed" class="fas fa-circle btn"></i><i v-if="!isDebuffed" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>                    
+                  <a class="status-exhausted" :style="statusEffect('isExhaused1')">
+                    <i class="far fa-user bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Exhausted</div>
-                    </a>
-                    <a class="status-frightened">
-                      <i class="fas fa-ghost bar-highlight"></i>
+                      <span @click="toggle('isExhaused1')"><i v-if="isExhaused1" class="fas fa-circle btn"></i><i v-if="!isExhaused1" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-frightened" :style="statusEffect('isFrightened')">
+                    <i class="fas fa-ghost bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Frightened</div>
-                    </a>
-                    <a class="status-grappled">
-                      <i class="fas fa-hand-rock bar-highlight"></i>
+                      <span @click="toggle('isFrightened')"><i v-if="isFrightened" class="fas fa-circle btn"></i><i v-if="!isFrightened" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-grappled" :style="statusEffect('isGrappled')">
+                    <i class="fas fa-hand-rock bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Grappled</div>
-                    </a>
-                    <a class="status-incapacitated">
-                      <i class="far fa-meh-blank bar-highlight"></i>
+                      <span @click="toggle('isGrappled')"><i v-if="isGrappled" class="fas fa-circle btn"></i><i v-if="!isGrappled" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-incapacitated" :style="statusEffect('isIncapacitated')">
+                    <i class="far fa-meh-blank bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Incapacitated</div>
-                    </a>
-                    <a class="status-paralyzed">
-                      <i class="fas fa-bolt bar-highlight"></i>
+                      <span @click="toggle('isIncapacitated')"><i v-if="isIncapacitated" class="fas fa-circle btn"></i><i v-if="!isIncapacitated" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-paralyzed" :style="statusEffect('isParalyzed')">
+                    <i class="fas fa-bolt bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Paralyzed</div>
-                    </a>
-                    <a class="status-petrified">
-                      <i class="fas fa-walking bar-highlight"></i>
+                      <span @click="toggle('isParalyzed')"><i v-if="isParalyzed" class="fas fa-circle btn"></i><i v-if="!isParalyzed" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-petrified" :style="statusEffect('isPetrified')">
+                    <i class="fas fa-walking bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Petrified</div>
-                    </a>
-                    <a class="status-poisoned">
-                      <i class="fas fa-vial bar-highlight"></i>
+                      <span @click="toggle('isPetrified')"><i v-if="isPetrified" class="fas fa-circle btn"></i><i v-if="!isPetrified" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-poisoned" :style="statusEffect('isPoisoned')">
+                    <i class="fas fa-vial bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Poisoned</div>
-                    </a>
-                    <a class="status-prone">
-                      <i class="fas fa-male bar-highlight"></i>
+                      <span @click="toggle('isPoisoned')"><i v-if="isPoisoned" class="fas fa-circle btn"></i><i v-if="!isPoisoned" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-prone" :style="statusEffect('isProne')">
+                    <i class="fas fa-male bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Prone</div>
-                    </a>
-                    <a class="status-restrained">
-                      <i class="fas fa-link bar-highlight"></i>
+                      <span @click="toggle('isProne')"><i v-if="isProne" class="fas fa-circle btn"></i><i v-if="!isProne" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-restrained" :style="statusEffect('isRestrained')">
+                    <i class="fas fa-link bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Restrained</div>
-                    </a>
-                    <a class="status-stunned">
-                      <i class="fas fa-flushed bar-highlight"></i>
+                      <span @click="toggle('isRestrained')"><i v-if="isRestrained" class="fas fa-circle btn"></i><i v-if="!isRestrained" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-stunned" :style="statusEffect('isStunned')">
+                    <i class="fas fa-flushed bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Stunned</div>
-                    </a>
-                    <a class="status-unconscious">
-                      <i class="fas fa-meh-rolling-eyes bar-highlight"></i>
+                      <span @click="toggle('isStunned')"><i v-if="isStunned" class="fas fa-circle btn"></i><i v-if="!isStunned" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
+                  <a class="status-unconscious" :style="statusEffect('isUnconscious')">
+                    <i class="fas fa-meh-rolling-eyes bar-highlight"></i>
+                    <div class="text-and-select">
                       <div>Unconscious</div>
-                    </a>
-                  </div>
+                      <span @click="toggle('isUnconscious')"><i v-if="isUnconscious" class="fas fa-circle btn"></i><i v-if="!isUnconscious" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
                 </div>
-              </i>
+              </div>
             </div>
 
             <div class="eye">
               <div class="eye-text">{{passivePerception}}</div>
             </div>
 
-            <div class="drink-potion btn" @click="toggleShowPotions()">
+            <div class="drink-potion btn" @click="toggle('showPotions')">
               <i class="fas fa-flask">  
                 <div class="select">
                   <div v-if="showPotions" class="dropdown-content">
@@ -259,7 +385,7 @@
     </div>
 
       <div class="mid-container">
-        <div class="mid-expand" @click="toggleShowCombat()">
+        <div class="mid-expand" @click="toggle('showCombat')">
             <span class="combat-header">
               <i class="fas fa-chess-knight"></i>&nbsp;&nbsp;Combat
             </span>
@@ -320,7 +446,7 @@
       </div>
 
       <div class="mid-container">
-        <div class="mid-expand" @click="toggleShowSkills()">
+        <div class="mid-expand" @click="toggle('showSkills')">
           <span class="saves-and-skills-header">
             <i class="fas fa-street-view"></i>&nbsp;&nbsp;Skills
           </span>
@@ -408,7 +534,7 @@
       </div>
 
       <div class="mid-container">
-        <div class="mid-expand" @click="toggleShowInventory()">
+        <div class="mid-expand" @click="toggle('showInventory')">
           <span class="inventory-header">
             <i class="fas fa-bars"></i>&nbsp;&nbsp;Inventory
           </span>
@@ -604,6 +730,45 @@
           prof: 0
         },
       ],
+
+      // Conditions
+
+      isBuffed: false,
+      isConcentrating: false,
+      //
+      isHalfCover: false,
+      isThreeQuartersCover: false,
+      isFullCover: false,
+      //
+      isLightlyObscured: false,
+      isHeavilyObscured: false,
+      isInvisible: false,
+      //
+      isRaging: false,
+
+      isBlinded: false,
+      isCharmed: false,
+      isDeafened: false,
+      isDebuffed: false,
+      //
+      isExhaused1: false,
+      isExhaused2: false,
+      isExhaused3: false,
+      isExhaused4: false,
+      isExhaused5: false,
+      isExhaused6: false,
+      //
+      isFrightened: false,
+      isGrappled: false,
+      isIncapacitated: false,
+      isParalyzed: false,
+      isPetrified: false,
+      isPoisoned: false,
+      isProne: false,
+      isRestrained: false,
+      isStunned: false,
+      isUnconscious: false,
+
       hasRunCalcSkills: false,
       xpRequirements: xpRequirements,
       showNotes: false,
@@ -1008,18 +1173,25 @@
         }       
       },
 
+      toggle: function (varName) {
+        strOperation = 'this.' + varName + ' = !this.' + varName
+        eval(strOperation)
+      },
+
       abilityMod: function (stat) {
         return this.posNeg(calcAbilityMod(stat))
       },
-      toggleShowStatuses: function () {
-        this.showStatuses = !this.showStatuses
-      },      
-      toggleShowPotions: function () {
-        this.showPotions = !this.showPotions
-      },
-      toggleShowNotes: function () {
-        this.showNotes = !this.showNotes
-      },
+
+      // toggleShowStatuses: function () {
+      //   this.showStatuses = !this.showStatuses
+      // },
+
+      // toggleShowPotions: function () {
+      //   this.showPotions = !this.showPotions
+      // },
+      // toggleShowNotes: function () {
+      //   this.showNotes = !this.showNotes
+      // },
       healDamage: function (value) {
         var newHp = this.hitPointsCurrent + value
         if (newHp <= this.hitPointsMaximum) {
@@ -1042,6 +1214,17 @@
           return console.log('too low')
         }
       },
+
+      // Status Effects
+
+      statusEffect: function (isAffected) {
+        if (eval('this.' + isAffected)) {
+          return {filter: 'none'}
+        } else {
+          return {filter: 'grayscale(80%)'}
+        }
+      },
+
       drinkPotion: function (size) {
         if (size === 'Greater') {
           this.potRoll = rollDie('4d4+4')
@@ -1098,25 +1281,25 @@
 
       // Mid
 
-      toggleShowCombat: function () {
-        this.showCombat = !this.showCombat
-      },
+      // toggleShowCombat: function () {
+      //   this.showCombat = !this.showCombat
+      // },
       showSpellTab: function () {
         this.showSpells = true
       },
       showAttackTab: function () {
         this.showSpells = false
       },
-      toggleShowSkills: function () {
-        this.showSkills = !this.showSkills
-        if (!this.hasRunCalcSkills) {
-          this.calcSkills()
-        }
-      },
+      // toggleShowSkills: function () {
+      //   this.showSkills = !this.showSkills
+      //   if (!this.hasRunCalcSkills) {
+      //     this.calcSkills()
+      //   }
+      // },
 
-      toggleShowInventory: function () {
-        this.showInventory = !this.showInventory
-      },
+      // toggleShowInventory: function () {
+      //   this.showInventory = !this.showInventory
+      // },
       
       calcSkill: function (stat, skill) {
         return this.posNeg(calcAbilityMod(stat) + this.proficiencyBonus * skill)
@@ -1182,6 +1365,20 @@
       1px -1px 0 black,
       -1px 1px 0 black,
       1px 1px 0 black;
+  }
+
+  .name-status-bar {
+    display: flex;
+  }
+
+  .status-bar {
+    display: flex;
+    position: relative;
+    margin-left: 3vw;
+  }
+
+  .status-bar a {
+    margin-right: 0.5rem;
   }
 
   span.class {
@@ -1404,7 +1601,8 @@
 
 /* Dropdowns */
 
-  .status-bar {
+  .status-list {
+    display: flex;
     position: absolute;
     top: 0;
     z-index: 3;
@@ -1422,20 +1620,18 @@
     font-size: 1rem;
     position: absolute;
     background-color:#5f5f5f;
-    box-shadow: 0px 0px 16px 16px #00000060;
+    box-shadow: 0px 0px 24px 8px #00000090;
   }
 
   .dropdown-content.status-dropdown {
     flex-direction: column;
-    margin-top: 1rem;
-    padding: 0.5rem;
-    padding-bottom: 0;
+    margin-left: 1rem;
+    width: 200px;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-style: italic;
-    background-color: #00000060;
-    pointer-events: none;
+    background-color: #00000069;
   }
 
   .dropdown-content.status-dropdown a {
@@ -1443,9 +1639,16 @@
     align-items: center;
     padding: 0;
     margin-bottom: 0.5rem;
+
+    filter: none;
+    -webkit-transition-property: filter; /* Safari */
+    -webkit-transition-duration: 1s; /* Safari */
+    transition-property: filter;
+    transition-duration: 1s;
+
   }
 
-  .dropdown-content.status-dropdown a i { /* make status icon class with individual overrides */
+  .status-dropdown a i.bar-highlight, .status-bar a i.bar-highlight { /* make status icon class with individual overrides */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1457,23 +1660,31 @@
     background: linear-gradient(to top, #5165B9, #5f2292 );
   }
 
-  .dropdown-content.status-dropdown a.status-buffed i {
+  .status-bar a i.bar-highlight {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0;
+    font-size: 0.8rem;
+    color: white;
+  }
+
+  a.status-buffed i.bar-highlight {
     background: linear-gradient(to top, #1cc613, #fad687 );
   }
 
-  .dropdown-content.status-dropdown a.status-concentrating i {
+  a.status-concentrating i.bar-highlight {
     background: linear-gradient(to bottom, #31a3c5, #5165B9 );
   }
 
-  .dropdown-content.status-dropdown a.status-cover i {
+  a.status-cover i.bar-highlight {
     background: linear-gradient(to top, #31a3c5, #0e9255 );
   }
 
-  .dropdown-content.status-dropdown a.status-invisible i {
-    background: linear-gradient(to top, #5165B9, darkgrey );
+  a.status-invisible i.bar-highlight {
+    background: linear-gradient(to bottom, #5165B9, darkgrey );
   }
 
-  .dropdown-content.status-dropdown a.status-raging i {
+  a.status-raging i.bar-highlight {
     background: linear-gradient(to bottom, red, #ff7300 );
   }
 
@@ -1485,11 +1696,24 @@
     transform: rotate(-90deg);
   }
 
-  .dropdown-content.status-dropdown a div {
+  .text-and-select {
+    display: flex;
+    justify-content: space-between;
     width: calc(100% - 32px);
     padding: 5px;
     border-radius: 5px;
     background-color: #5f5f5f;
+  }
+
+  .text-and-select i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18.4px;
+    height: 18.4px;
+    font-size: 0.8rem;
+    border-radius: 2px;
+    background-color: #00000030;
   }
 
   .dropdown-content.note-dropdown {
