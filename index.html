@@ -388,16 +388,16 @@
 
       </div>
 
-      <div class="lower-bars">
-        <div class="hit-dice">
-          <div>
-            <i class="fas fa-chevron-up btn" :class="{ cantClick:hdCurrent == level }" @click="addHitDie()"></i>
-            <i class="fas fa-chevron-down btn" :class="{ cantClick:!hdCurrent}" @click="subHitDie()"></i>
-          </div>
-          Hit&nbsp;Dice:&nbsp;(&nbsp;{{hdCurrent}}&nbsp;/&nbsp;{{level}}&nbsp;)&nbsp;<span>{{hdSize}}</span>
-          <i class="fas fa-dice-d20 btn" :class="{ cantClick:!hdCurrent}" @click="rollHitDie()"></i>
-          <i class="fas fa-sync-alt btn" :class="{ cantClick:hdCurrent == level }" @click="resetHitDice()"></i>
+      <div class="hit-dice">
+        <div>
+          <i class="fas fa-chevron-up btn" :class="{ cantClick:hdCurrent == level }" @click="addHitDie()"></i>
+          <i class="fas fa-chevron-down btn" :class="{ cantClick:!hdCurrent}" @click="subHitDie()"></i>
         </div>
+        Hit&nbsp;Dice:&nbsp;(&nbsp;{{hdCurrent}}&nbsp;/&nbsp;{{level}}&nbsp;)&nbsp;<span>{{hdSize}}</span>
+        <i class="fas fa-dice-d20 btn" :class="{ cantClick:!hdCurrent}" @click="rollHitDie()"></i>
+        <i class="fas fa-sync-alt btn" :class="{ cantClick:hdCurrent == level }" @click="resetHitDice()"></i>
+      </div>
+      <div class="lower-bars">
         <div class="hit-points-wrapper" :class="{ deadFilter:isDead }">
           <div class="hit-points-bar bar-shadow":style="exhaustedHP">
             <span class="add-or-subtract">
@@ -2062,9 +2062,13 @@
   }
 
   .hit-dice {
+    position: absolute;
+    top: calc(373.6px + 3vh);
+    right: 5vw;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    width: 200px;
     padding-right:0.5rem;
     margin-bottom: 4px;
     font-weight: 100;
