@@ -25,10 +25,10 @@
             <a v-if="isConcentrating" class="status-concentrating">
               <i class="fas fa-magic bar-highlight"></i>
             </a>
-            <a v-if="isFullCover" class="status-cover">
+            <a v-if="coverIncrement" class="status-cover">
               <i class="fas fa-shield-alt bar-highlight"></i>
             </a>
-            <a v-if="isInvisible" class="status-invisible">
+            <a v-if="obscuredIncrement" class="status-obscured">
               <i class="fas fa-low-vision bar-highlight"></i>
             </a>
             <a v-if="isRaging" class="status-raging">
@@ -41,13 +41,16 @@
             <a v-if="isCharmed" class="status-charmed">
               <i class="far fa-heart bar-highlight"></i>
             </a>
+            <a v-if="isDead" class="status-dead">
+              <i class="fas fa-skull bar-highlight"></i>
+            </a>
             <a v-if="isDeafened" class="status-deafened">
               <i class="fas fa-deaf bar-highlight"></i>
             </a>
             <a v-if="isDebuffed" class="status-debuffed">
               <i class="fas fa-angle-double-down bar-highlight"></i>
             </a>                    
-            <a v-if="isExhaused1" class="status-exhausted">
+            <a v-if="exhaustedIncrement" class="status-exhausted">
               <i class="far fa-user bar-highlight"></i>
             </a>
             <a v-if="isFrightened" class="status-frightened">
@@ -127,18 +130,26 @@
                       <span @click="toggle('isConcentrating')"><i v-if="isConcentrating" class="fas fa-circle btn"></i><i v-if="!isConcentrating" class="far fa-circle btn"></i></span>
                     </div>
                   </a>
-                  <a class="status-cover" :style="statusEffect('isFullCover')">
+                  <a class="status-cover" :style="statusEffect('coverIncrement')">
                     <i class="fas fa-shield-alt bar-highlight"></i>
                     <div class="text-and-select">
-                      <div>Cover</div>
-                      <span @click="toggle('isFullCover')"><i v-if="isFullCover" class="fas fa-circle btn"></i><i v-if="!isFullCover" class="far fa-circle btn"></i></span>
+                      <div>Cover<span v-if="coverIncrement" class="status-append">&nbsp;{{coverContent}}</span></div>
+                      <span class="cover-dots btn" @click="coverCounter()">
+                        <i v-if="coverIncrement >= 1" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="coverIncrement >= 2" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="coverIncrement >= 3" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                      </span>
                     </div>
                   </a>
-                  <a class="status-invisible" :style="statusEffect('isInvisible')">
+                  <a class="status-obscured" :style="statusEffect('obscuredIncrement')">
                     <i class="fas fa-low-vision bar-highlight"></i>
                     <div class="text-and-select">
-                      <div>Invisible</div>
-                      <span @click="toggle('isInvisible')"><i v-if="isInvisible" class="fas fa-circle btn"></i><i v-if="!isInvisible" class="far fa-circle btn"></i></span>
+                      <div>Obscured<span v-if="obscuredIncrement" class="status-append">&nbsp;{{obscuredContent}}</span></div>
+                      <span class="obscured-dots btn" @click="obscuredCounter()">
+                        <i v-if="obscuredIncrement >= 1" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="obscuredIncrement >= 2" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="obscuredIncrement >= 3" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                      </span>
                     </div>
                   </a>
                   <a class="status-raging" :style="statusEffect('isRaging')">
@@ -163,6 +174,13 @@
                       <span @click="toggle('isCharmed')"><i v-if="isCharmed" class="fas fa-circle btn"></i><i v-if="!isCharmed" class="far fa-circle btn"></i></span>
                     </div>
                   </a>
+                  <a class="status-dead" :style="statusEffect('isDead')">
+                    <i class="fas fa-skull bar-highlight"></i>
+                    <div class="text-and-select">
+                      <div>Dead</div>
+                      <span @click="toggle('isDead')"><i v-if="isDead" class="fas fa-circle btn"></i><i v-if="!isDead" class="far fa-circle btn"></i></span>
+                    </div>
+                  </a>
                   <a class="status-deafened" :style="statusEffect('isDeafened')">
                     <i class="fas fa-deaf bar-highlight"></i>
                     <div class="text-and-select">
@@ -177,11 +195,18 @@
                       <span @click="toggle('isDebuffed')"><i v-if="isDebuffed" class="fas fa-circle btn"></i><i v-if="!isDebuffed" class="far fa-circle btn"></i></span>
                     </div>
                   </a>                    
-                  <a class="status-exhausted" :style="statusEffect('isExhaused1')">
+                  <a class="status-exhausted" :style="statusEffect('exhaustedIncrement')">
                     <i class="far fa-user bar-highlight"></i>
                     <div class="text-and-select">
-                      <div>Exhausted</div>
-                      <span @click="toggle('isExhaused1')"><i v-if="isExhaused1" class="fas fa-circle btn"></i><i v-if="!isExhaused1" class="far fa-circle btn"></i></span>
+                      <div>Exhausted<span v-if="exhaustedIncrement" class="status-append">&nbsp;level&nbsp;{{exhaustedIncrement}}</span></div>
+                      <span class="exhaustion-dots btn" @click="exhaustedCounter()">
+                        <i v-if="exhaustedIncrement >= 1" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="exhaustedIncrement >= 2" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="exhaustedIncrement >= 3" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="exhaustedIncrement >= 4" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="exhaustedIncrement >= 5" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                        <i v-if="exhaustedIncrement >= 6" class="fas fa-circle"></i><i v-else class="far fa-circle"></i>
+                      </span>
                     </div>
                   </a>
                   <a class="status-frightened" :style="statusEffect('isFrightened')">
@@ -303,6 +328,8 @@
 
         <div class="main-stats">
 
+          <i v-if="exhaustedIncrement >= 1" class="fas fa-dice-d20 disadvantage-d20"></i>
+
           <div class="mod-and-bar">
             <div class="stat-mod bar-shadow">{{abilityMod(this.strength.value)}}</div>
             <div class="strength stat bar bar-shadow">
@@ -362,15 +389,16 @@
       </div>
 
       <div class="lower-bars">
-
-        <div class="hit-points-bar bar-shadow">
-          <span class="add-or-subtract">
-            <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
-            <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
-          </span>
-          <span class="hp-added">+&nbsp;{{potRoll}}</span>
-          <div class="current-stat bar-shadow" :style="hpSize">
-            <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
+        <div class="hit-points-wrapper" :class="{ deadFilter:isDead }">
+          <div class="hit-points-bar bar-shadow":style="exhaustedHP">
+            <span class="add-or-subtract">
+              <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
+              <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
+            </span>
+            <span class="hp-added">+&nbsp;{{potRoll}}</span>
+            <div class="current-stat bar-shadow" :style="hpSize">
+              <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
+            </div>
           </div>
         </div>
 
@@ -396,7 +424,7 @@
           <div class="stats-and-attacks">
             <div class="combat-stats">
               <div class="armour-class">
-                <span class="stat-number">{{armourClass}}</span><span>AC</span>
+                <span class="stat-number">{{armourClass}}<a v-if="coverIncrement == 1 || 2" :style="coverBuff">&nbsp;{{coverMod}}</a></span><span>AC</span>
               </div>
               <div class="initiative">
                 <span class="stat-number">{{initiative}}</span><span>Initiative</span>
@@ -405,13 +433,15 @@
                 <span class="stat-number">{{proficiencyBonus}}</span><span>Proficiency Bonus</span>
               </div>
               <div class="speed">
-                <span class="stat-number">{{speed}}</span><span>Speed</span>
+                <span class="stat-number" :style="speedStyle">{{totalSpeed}}</span><span>Speed</span>
               </div>
             </div>
 
             <div class="attacks-and-spells">
               <div class="attacks-and-spells-header" style="background-color: #5f5f5f;">
-                <div class="attack-tab" @click="showAttackTab()" :style="attackSelect"><i class="fas fa-fist-raised"></i>&nbsp;&nbsp;Attacks</div>
+                <div class="attack-tab" @click="showAttackTab()" :style="attackSelect"><i class="fas fa-fist-raised"></i>&nbsp;&nbsp;Attacks
+                  <i v-if="exhaustedIncrement >= 3" class="fas fa-dice-d20 disadvantage-d20"></i>                
+                </div>
                 <div class="spell-tab" @click="showSpellTab()" :style="spellSelect"><i class="fas fa-bolt"></i>&nbsp;&nbsp;Spellcasting</div>
               </div>
               <ul v-if="!showSpells" class="attack-list">
@@ -459,6 +489,7 @@
             <div class="saving-throws">
               <div class="saves-header" style="background-color: #5f5f5f; padding: 0.6rem;">
                 <i class="fab fa-creative-commons-by"></i>&nbsp;&nbsp;Saving&nbsp;Throws
+                <i v-if="exhaustedIncrement >= 3" class="fas fa-dice-d20 disadvantage-d20"></i>
               </div>
               <ul class="save-list">
                 <li class="save">
@@ -471,7 +502,7 @@
                 <li class="save">
                   <span class="save-text">
                     <span class="save-value" style="width: 24px;">{{dexSave}}</span>
-                    <span class="save-name">Dexterity</span>
+                    <span class="save-name">Dexterity<a v-if="coverIncrement == 1 || 2" :style="coverBuff">&nbsp;{{coverMod}}</a></span>
                     <span class="save-prof">{{dexterity.prof}}</span>
                   </span>
                 </li>
@@ -510,6 +541,7 @@
 
               <div class="skills-header" style="background-color: #5f5f5f; padding: 0.6rem;">
                 <i class="fas fa-haykal"></i>&nbsp;&nbsp;Skills
+                <i v-if="exhaustedIncrement >= 1" class="fas fa-dice-d20 disadvantage-d20"></i>
               </div>
 
               <ul class="skill-list">
@@ -584,8 +616,8 @@
       initiative: 5,
       profBonus: profBonus,
       speed: 30,
-      hitPointsCurrent: 1,
-      hitPointsMaximum: 80,
+      hpCurrent: 1,
+      hpMaximum: 80,
       xpTotal: 40000,
       strength: 
       {
@@ -736,27 +768,19 @@
       isBuffed: false,
       isConcentrating: false,
       //
-      isHalfCover: false,
-      isThreeQuartersCover: false,
-      isFullCover: false,
+      coverIncrement: 0,
       //
-      isLightlyObscured: false,
-      isHeavilyObscured: false,
-      isInvisible: false,
+      obscuredIncrement: 0,
       //
       isRaging: false,
 
       isBlinded: false,
       isCharmed: false,
       isDeafened: false,
+      isDead: false,
       isDebuffed: false,
       //
-      isExhaused1: false,
-      isExhaused2: false,
-      isExhaused3: false,
-      isExhaused4: false,
-      isExhaused5: false,
-      isExhaused6: false,
+      exhaustedIncrement: 0,
       //
       isFrightened: false,
       isGrappled: false,
@@ -783,57 +807,57 @@
       attacks: [
         { 
           name: 'Dancing Blade F',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade F',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Fire',
           type: 'weapon'
         },
         { 
           name: 'Dancing Blade N',
-          bonus: '+8',
-          damage: '1d6 + 4, 1d6',
+          bonus: '+9',
+          damage: '1d6 + 6, 1d6',
           damageType: 'Slashing, Necrotic',
           type: 'weapon'
         }
@@ -980,6 +1004,8 @@
 
       unconsciousTransition: function () {
         if (this.hitPointsCurrent <= 0) {
+          this.isUnconscious = true
+          this.isConcentrating = false
           return {opacity: '1', pointerEvents: 'auto'}
         } else {
           return {opacity: '0', pointerEvents: 'none'}
@@ -1044,15 +1070,88 @@
           return false
         }
       },
-      isDead: function () {
-        if (this.totalFail >= 3) {
-          return true
+
+      // Status Effects
+
+      coverContent: function () {
+        if (this.coverIncrement == 0) {
+          return ''
+        } else if (this.coverIncrement == 1) {
+          return '1/2'
+        } else if (this.coverIncrement == 2) {
+          return '3/4'
+        } else if (this.coverIncrement == 3) {
+          return 'Full'
+        }
+      },
+
+      obscuredContent: function () {
+        if (this.obscuredIncrement == 0) {
+          return ''
+        } else if (this.obscuredIncrement == 1) {
+          return 'Lightly'
+        } else if (this.obscuredIncrement == 2) {
+          return 'Heavily'
+        } else if (this.obscuredIncrement == 3) {
+          return 'Invisible'
+        }
+      },
+
+      coverMod: function () {
+        if (this.coverIncrement == 1) {
+          return '+2'
+        } else if (this.coverIncrement == 2) {
+          return '+5'
+        }
+      },
+
+      coverBuff: function () {
+        if (this.coverIncrement == 1) {
+          return {color: '#7ecc49'}
+        } else if (this.coverIncrement == 2) {
+          return {color: '#7ecc49'}
+        }
+      },
+
+      totalSpeed: function () {
+        if (this.exhaustedIncrement >= 5) {
+          return 0
+        } else if (this.exhaustedIncrement >= 2) {
+          return Math.round(this.speed/2)
         } else {
-          return false
+          return this.speed
+        }
+      },
+
+      speedStyle: function () {
+        if (this.exhaustedIncrement >= 2) {
+          return {color: '#cc4949'}
+        }
+      },
+
+      exhaustedHP: function () {
+        if (this.exhaustedIncrement >= 4) {
+          return {marginRight: '50%'}
         }
       },
 
       // Caculating Bar Size
+
+      hitPointsMaximum: function () {
+        if (this.exhaustedIncrement >= 4) {
+          return Math.round(this.hpMaximum/2)
+        } else {
+          return this.hpMaximum
+        }
+      },
+      hitPointsCurrent: function () {
+        if (this.hpCurrent > this.hitPointsMaximum) {
+          this.hpCurrent = this.hitPointsMaximum
+          return this.hpCurrent
+        } else {
+          return this.hpCurrent
+        }
+      },
 
       hpSize: function () {
         return {width: String((this.hitPointsCurrent / this.hitPointsMaximum) * 100) + '%'}
@@ -1106,6 +1205,7 @@
       proficiencyBonus: function () {
         return this.profBonus[String(this.level)]
       },
+
       attackSelect: function (){
         if (this.showSpells) {
           return {backgroundColor: '#5f5f5f', color: '#cccccc'}
@@ -1174,44 +1274,104 @@
       },
 
       toggle: function (varName) {
+        if (varName == 'showSkills' && !this.hasRunCalcSkills) {
+          this.calcSkills()
+        } else if (varName == 'isDead' || varName == 'isUnconscious') {
+          this.toggleDeadUnconscious(varName)
+        }
         strOperation = 'this.' + varName + ' = !this.' + varName
         eval(strOperation)
+      },
+
+      toggleDeadUnconscious: function (varName) {
+        if (varName == 'isUnconscious' && this.isConcentrating) {
+          this.isConcentrating = false
+        }
+        if (varName == 'isDead' && this.isUnconscious) {
+          this.isUnconscious = false
+        } else if (varName == 'isDead' && this.isConcentrating) {
+          this.isConcentrating = false
+        } else if (varName == 'isDead' && this.isDead && this.hitPointsCurrent == 0) {
+          this.isUnconscious = true
+        } else if (varName == 'isUnconscious' && this.isDead && this.exhaustedIncrement >= 6) {
+          this.isDead = false
+          this.exhaustedIncrement = 5
+        } else if (varName == 'isUnconscious' && this.isDead) {
+          this.isDead = false
+        } else if (varName == 'isUnconscious' && this.isUnconscious && this.hitPointsCurrent == 0) {
+          this.isDead = true
+        }
       },
 
       abilityMod: function (stat) {
         return this.posNeg(calcAbilityMod(stat))
       },
 
-      // toggleShowStatuses: function () {
-      //   this.showStatuses = !this.showStatuses
-      // },
-
-      // toggleShowPotions: function () {
-      //   this.showPotions = !this.showPotions
-      // },
-      // toggleShowNotes: function () {
-      //   this.showNotes = !this.showNotes
-      // },
       healDamage: function (value) {
         var newHp = this.hitPointsCurrent + value
         if (newHp <= this.hitPointsMaximum) {
-          this.hitPointsCurrent = newHp
+          if (this.hitPointsCurrent == 0 && this.isUnconscious == true) {
+            this.isUnconscious = false
+          }
+          this.hpCurrent = newHp
           if (this.totalSucc || this.totalFail) {
             this.totalSucc = 0
             this.totalFail = 0
           }
         } else {
-          this.hitPointsCurrent = this.hitPointsMaximum
+          this.hpCurrent = this.hitPointsMaximum
           return console.log('too high')
         }
       },
       takeDamage: function (value) {
         var newHp = this.hitPointsCurrent - value
         if (newHp >= 0) {
-          this.hitPointsCurrent = newHp
+          this.hpCurrent = newHp
         } else {
-          this.hitPointsCurrent = 0
+          this.hpCurrent = 0
           return console.log('too low')
+        }
+      },
+
+      // Death Saving Throws
+
+      saveSucc: function () {
+        if (this.hitPointsCurrent <= 0 && this.totalSucc < 3) {
+          this.totalSucc = this.totalSucc + 1
+        }
+      },
+      saveFail: function () {
+        if (this.hitPointsCurrent <= 0 && this.totalFail < 3) {
+          this.totalFail = this.totalFail + 1
+        }
+        if (this.totalFail >= 3 && !this.isDead) {
+          this.isDead = true
+          this.isUnconscious = false
+        }
+      },
+      resetSaves: function () {
+        this.totalSucc = 0
+        this.totalFail = 0
+        this.isDead = false
+        this.isUnconscious = true
+      },
+
+      rollDeathSave: function () {
+        this.deathSave = rollDie('1d20')
+        console.log(this.deathSave)
+        if (this.deathSave == 20) {
+          console.log('Critical Success')
+          this.healDamage(1)  
+        } else if (this.deathSave >= 10) {
+          console.log('Success')
+          this.saveSucc()
+        } else if (this.deathSave > 1) {
+          console.log('Failure')
+          this.saveFail()
+        } else {
+          console.log('Critical Failure')
+          this.saveFail()
+          this.saveFail()
         }
       },
 
@@ -1222,6 +1382,36 @@
           return {filter: 'none'}
         } else {
           return {filter: 'grayscale(0.8) brightness(0.5)'}
+        }
+      },
+
+
+      coverCounter: function () {
+        if (this.coverIncrement == 3) {
+          this.coverIncrement = 0
+        } else {
+          this.coverIncrement = this.coverIncrement + 1
+        }
+      },
+
+      obscuredCounter: function () {
+        if (this.obscuredIncrement == 3) {
+          this.obscuredIncrement = 0
+        } else {
+          this.obscuredIncrement = this.obscuredIncrement + 1
+        }
+      },
+
+      exhaustedCounter: function () {
+        if (this.exhaustedIncrement == 6) {
+          this.exhaustedIncrement = 0
+        } else {
+          this.exhaustedIncrement = this.exhaustedIncrement + 1
+            if (this.exhaustedIncrement == 6) {
+            this.isDead = true
+            this.isUnconscious = false
+            this.isConcentrating = false
+          }
         }
       },
 
@@ -1245,61 +1435,15 @@
         }
       },
 
-      saveSucc: function () {
-        if (this.hitPointsCurrent <= 0 && this.totalSucc < 3) {
-          this.totalSucc = this.totalSucc + 1
-        }
-      },
-      saveFail: function () {
-        if (this.hitPointsCurrent <= 0 && this.totalFail < 3) {
-          this.totalFail = this.totalFail + 1
-        }
-      },
-      resetSaves: function () {
-        this.totalSucc = 0
-        this.totalFail = 0
-      },
-
-      rollDeathSave: function () {
-        this.deathSave = rollDie('1d20')
-        console.log(this.deathSave)
-        if (this.deathSave == 20) {
-          console.log('Critical Success')
-          this.healDamage(1)  
-        } else if (this.deathSave >= 10) {
-          console.log('Success')
-          this.saveSucc()
-        } else if (this.deathSave > 1) {
-          console.log('Failure')
-          this.saveFail()
-        } else {
-          console.log('Critical Failure')
-          this.saveFail()
-          this.saveFail()
-        }
-      },
 
       // Mid
 
-      // toggleShowCombat: function () {
-      //   this.showCombat = !this.showCombat
-      // },
       showSpellTab: function () {
         this.showSpells = true
       },
       showAttackTab: function () {
         this.showSpells = false
       },
-      // toggleShowSkills: function () {
-      //   this.showSkills = !this.showSkills
-      //   if (!this.hasRunCalcSkills) {
-      //     this.calcSkills()
-      //   }
-      // },
-
-      // toggleShowInventory: function () {
-      //   this.showInventory = !this.showInventory
-      // },
       
       calcSkill: function (stat, skill) {
         return this.posNeg(calcAbilityMod(stat) + this.proficiencyBonus * skill)
@@ -1432,6 +1576,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .main-stats .disadvantage-d20 {
+    position: absolute;
+    top: 100px;
+    padding: 0;
   }
 
   .character-image {
@@ -1626,7 +1776,7 @@
   .dropdown-content.status-dropdown {
     flex-direction: column;
     margin-left: 1rem;
-    width: 200px;
+    width: 250px;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
@@ -1680,7 +1830,7 @@
     background: linear-gradient(to top, #31a3c5, #0e9255 );
   }
 
-  a.status-invisible i.bar-highlight {
+  a.status-obscured i.bar-highlight {
     background: linear-gradient(to bottom, #5165B9, darkgrey );
   }
 
@@ -1714,6 +1864,45 @@
     font-size: 0.8rem;
     border-radius: 2px;
     background-color: #00000030;
+  }
+
+  .status-append {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: rgb(150, 150, 150);
+  }
+
+  .cover-dots, .obscured-dots, .exhaustion-dots {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 2px;
+    background-color: #00000030;
+    width: 60px;
+  }
+
+  .cover-dots, .obscured-dots {
+    width: 30px;
+  }
+
+  .text-and-select .cover-dots i, .text-and-select .obscured-dots i, .text-and-select .exhaustion-dots i {
+    font-size: 0.4rem;
+    width: initial;
+    background-color: transparent;
+  }
+
+  .disadvantage-d20 {
+    padding-left: 0.5rem;
+    color: #cc4949;
+    text-shadow:
+      -2px -2px 5px black,
+      2px -2px 5px black,
+      -2px 2px 5px black,
+      2px 2px 5px black;
+  }
+
+  .deadFilter {
+    filter: grayscale(0.8) brightness(0.8);
   }
 
   .dropdown-content.note-dropdown {
@@ -1837,6 +2026,10 @@
   .bar-highlight {
     -webkit-box-shadow: inset 0 0 6px #00000070;
     box-shadow: inset 0 0 6px #00000070;    
+  }
+
+  .hit-points-wrapper {
+    background-color: #444444;
   }
 
   .hit-points-bar {
@@ -1989,6 +2182,10 @@
     margin-top: 0.4rem;
   }
 
+  .stat-number a {
+    font-size: 1rem
+  }
+
   /* Attacks, Spells and Skills */
 
   .attacks-and-spells {
@@ -2108,6 +2305,7 @@
   .save-text, .skill-text {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width: 100%;
   }
 
@@ -2120,6 +2318,12 @@
 
   .save-prof, .skill-stat, .skill-prof {
     color: grey;
+    font-size: 0.8rem;
+    
+  }
+
+  .skill-stat {
+    font-style: italic;
   }
 
   .skill-value-prof {
