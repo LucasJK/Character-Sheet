@@ -1,6 +1,5 @@
 # Character-Sheet
 
-- hit dice
 
 - features (tracked features, idea for bar in-line with the feature name in the feature list)
 - feats
@@ -68,3 +67,4 @@ done:
 - add sub-statuses for cover (half/three quarters/full) --done
 - add sub-statuses for exaustion (1-6 levels) --done
 - add modal for changing which statuses you are affected by --done (decided not modal)
+- hit dice --done

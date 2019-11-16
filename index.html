@@ -389,13 +389,22 @@
       </div>
 
       <div class="lower-bars">
+        <div class="hit-dice">
+          <div>
+            <i class="fas fa-chevron-up btn" :class="{ cantClick:hdCurrent == level }" @click="addHitDie()"></i>
+            <i class="fas fa-chevron-down btn" :class="{ cantClick:!hdCurrent}" @click="subHitDie()"></i>
+          </div>
+          Hit&nbsp;Dice:&nbsp;(&nbsp;{{hdCurrent}}&nbsp;/&nbsp;{{level}}&nbsp;)&nbsp;<span>{{hdSize}}</span>
+          <i class="fas fa-dice-d20 btn" :class="{ cantClick:!hdCurrent}" @click="rollHitDie()"></i>
+          <i class="fas fa-sync-alt btn" :class="{ cantClick:hdCurrent == level }" @click="resetHitDice()"></i>
+        </div>
         <div class="hit-points-wrapper" :class="{ deadFilter:isDead }">
           <div class="hit-points-bar bar-shadow":style="exhaustedHP">
             <span class="add-or-subtract">
               <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
               <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
             </span>
-            <span class="hp-added">+&nbsp;{{potRoll}}</span>
+            <span class="hp-added">+&nbsp;{{potRoll}}&nbsp;+&nbsp;{{hdRoll}}</span>
             <div class="current-stat bar-shadow" :style="hpSize">
               <span class="bar-text"><b>HP</b>&nbsp;{{hitPointsCurrent}}/{{hitPointsMaximum}}</span>
             </div>
@@ -616,6 +625,8 @@
       initiative: 5,
       profBonus: profBonus,
       speed: 30,
+      hdSize: 'd10',
+      hdCurrent: 6,
       hpCurrent: 1,
       hpMaximum: 80,
       xpTotal: 40000,
@@ -798,6 +809,7 @@
       showStatuses: false,
       showPotions: false,
       potRoll: 0,
+      hdRoll: 0,
       showCombat: false,
       showSpells: false,
       showSkills: false,
@@ -1305,6 +1317,29 @@
       abilityMod: function (stat) {
         return this.posNeg(calcAbilityMod(stat))
       },
+
+      addHitDie: function () {
+        if (this.hdCurrent < this.level) {
+          this.hdCurrent = this.hdCurrent + 1
+        }
+      },
+      subHitDie: function () {
+        if (this.hdCurrent >= 1) {
+          this.hdCurrent = this.hdCurrent - 1
+        }
+      },
+      rollHitDie: function () {
+        if (this.hdCurrent >= 1) {
+          this.hdRoll = rollDie(String(this.hdSize) + '+' + String(this.abilityMod(this.constitution.value)))
+          this.healDamage(this.hdRoll)
+          console.log(this.hdRoll)
+          this.hdCurrent = this.hdCurrent - 1
+        }
+      },
+      resetHitDice: function () {
+        this.hdCurrent = this.level
+      },
+
 
       healDamage: function (value) {
         var newHp = this.hitPointsCurrent + value
@@ -2020,6 +2055,51 @@
   .bar-highlight {
     -webkit-box-shadow: inset 0 0 6px #00000070;
     box-shadow: inset 0 0 6px #00000070;    
+  }
+
+  .cantClick {
+    pointer-events: none;
+  }
+
+  .hit-dice {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right:0.5rem;
+    margin-bottom: 4px;
+    font-weight: 100;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #cccccc;
+  }
+
+  .hit-dice div {
+    display: flex;
+    flex-direction: column;
+    margin-right:0.5rem;
+  }
+
+  .hit-dice div i {
+    font-size: 1rem;
+    /* display:inline-block; */
+
+    /* -webkit-transform:scale(2,1); /* Safari and Chrome 
+    -moz-transform:scale(2,1); /* Firefox 
+    -ms-transform:scale(2,1); /* IE 9 
+    -o-transform:scale(2,1); /* Opera 
+    transform:scale(2,1); W3C */
+  }
+
+  .hit-dice div i::before {
+    height: 7px;
+  }
+
+  .hit-dice span {
+    color: #525050;
+  }
+
+  .hit-dice .fa-dice-d20, .hit-dice .fa-sync-alt {
+    padding-left: 0.5rem;
   }
 
   .hit-points-wrapper {
