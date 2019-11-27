@@ -21,7 +21,7 @@
 
 Potential Feature List:
 
-- calculates damage dice for attacls/spells
+- calculates damage dice for attacks/spells
 
 - detect class to add rage to status list
 
