@@ -91,7 +91,7 @@
         <span class="class">&nbsp;&nbsp;{{classes.thirdClass}}</span>
       </div>
       <span class="note-icon btn">
-        <i class="fas fa-sticky-note" @click="toggle('showNotes')" ></i>
+        <i class="fas fa-sticky-note" @click="displayIndex()" ></i>
 
         <div class="select">
           <div v-if="showNotes" class="dropdown-content note-dropdown">
@@ -459,49 +459,55 @@
 
               </div>
 
-              <ul v-if="showFeatures" class="attack-list">
-                <li v-for="feature in features" class="attack">
-                  <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
-                  <span class="attack-text">
-                    <span class="attack-name" contenteditable="true">{{feature.name}}</span>
-                    <span class="attack-bonus" contenteditable="true">{{feature.current}}</span>
-                    <span class="attack-damage" contenteditable="true">{{feature.max}}</span>
-                    <span class="attack-damage-type" contenteditable="true">{{feature.source}}</span>
+              <ul v-if="showFeatures" class="combat-list">
+                <li v-for="(feature, index) in features" class="combat combat-feature" :id="index">
+                  <span class="combat-text">
+                    <span class="feature-name">{{feature.name}}</span>
+                    <span class="feature-current">{{feature.current}}</span>
+                    <span class="feature-max">{{feature.max}}</span>
+                    <span class="feature-bar-container">
+                      <i class="fas fa-minus-circle btn" @click="takeDamage(1)"></i>
+                      <span class="feature-bar">
+                        <div class="current-stat feature-stat" :style="displayIndex()"></div>
+                      </span>
+                      <i class="fas fa-plus-circle btn" @click="healDamage(1)"></i>
+                    </span>
+                    <span class="feature-source">{{feature.source}}</span>
                   </span>
                 </li>
               </ul>
 
-              <ul v-if="showAttacks" class="attack-list">
-                <li v-for="attack in attacks" class="attack">
+              <ul v-if="showAttacks" class="combat-list">
+                <li v-for="attack in attacks" class="combat">
                   <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
-                  <span class="attack-text">
-                    <span class="attack-name" contenteditable="true">{{attack.name}}</span>
-                    <span class="attack-bonus" contenteditable="true">{{attack.bonus}}</span>
-                    <span class="attack-damage" contenteditable="true">{{attack.damage}}</span>
-                    <span class="attack-damage-type" contenteditable="true">{{attack.damageType}}</span>
+                  <span class="combat-text">
+                    <span class="attack-name">{{attack.name}}</span>
+                    <span class="attack-bonus">{{attack.bonus}}</span>
+                    <span class="attack-damage">{{attack.damage}}</span>
+                    <span class="attack-damage-type">{{attack.damageType}}</span>
                   </span>
                 </li>
               </ul>
 
-              <ul v-if="showSpells" class="attack-list">
-                <li v-for="spell in spells" class="attack">
+              <ul v-if="showSpells" class="combat-list">
+                <li v-for="spell in spells" class="combat">
                   <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
-                  <span class="attack-text">
-                    <span class="attack-name" contenteditable="true">{{spell.name}}</span>
-                    <span class="attack-bonus" contenteditable="true">{{spell.bonus}}</span>
-                    <span class="attack-damage" contenteditable="true">{{spell.damage}}</span>
-                    <span class="attack-damage-type" contenteditable="true">{{spell.damageType}}</span>
+                  <span class="combat-text">
+                    <span class="attack-name">{{spell.name}}</span>
+                    <span class="attack-bonus">{{spell.bonus}}</span>
+                    <span class="attack-damage">{{spell.damage}}</span>
+                    <span class="attack-damage-type">{{spell.damageType}}</span>
                   </span>
                 </li>
               </ul>
 
-              <ul v-if="showSpellSlots" class="attack-list">
-                <li v-for="slot in spellSlots" class="attack">
+              <ul v-if="showSpellSlots" class="combat-list">
+                <li v-for="slot in spellSlots" class="combat">
                   <a class="attack-button"><i class="fas fa-crosshairs"></i></a>
-                  <span class="attack-text">
-                    <span class="attack-name" contenteditable="true">{{slot.size}}</span>
-                    <span class="attack-bonus" contenteditable="true">{{slot.current}}</span>
-                    <span class="attack-damage" contenteditable="true">{{slot.max}}</span>
+                  <span class="combat-text">
+                    <span class="attack-name">{{slot.size}}</span>
+                    <span class="attack-bonus">{{slot.current}}</span>
+                    <span class="attack-damage">{{slot.max}}</span>
                   </span>
                 </li>
               </ul>
@@ -644,6 +650,7 @@
   var app = new Vue({
     el: '.sheet-container',
     data: {
+      featureIncrement: 0,
       characterName: 'Vara Intep',
       level: 8,
       classes: {
@@ -839,7 +846,7 @@
       showPotions: false,
       potRoll: 0,
       hdRoll: 0,
-      showCombat: false,
+      showCombat: true,
       showFeatures: true,
       showAttacks: false,
       showSpells: false,
@@ -1318,6 +1325,20 @@
         return {width: String(((20 - this.charisma.value) / 20) * 100) + '%', maxWidth: 'calc(100% - 150px)'}
       },
 
+      // barSize: function (barIndex) {
+      //   var currentValue = eval('this.features[' + String(barIndex) + '].current')
+      //   var maximumValue = eval('this.features[' + String(barIndex) + '].max')
+      //   return {width: String((currentValue / maximumValue) * 100) + '%'}
+      // },
+
+      // nthTest: function (id) {
+      //   console.log(id)
+      // },
+
+        featuresLength: function () {
+          return this.features.length
+        },
+
       // XP
 
       xpCurrent: function () {
@@ -1374,6 +1395,8 @@
           return {backgroundColor: '#808080', color: 'whitesmoke'}
         }
       },
+
+//
 
       // Saving Throws & Skills
 
@@ -1639,7 +1662,47 @@
         this.showSpells = false
         this.showSpellSlots = true
       },
-      
+
+      // calcFeatureBars: function () {
+      //   var elementList = document.getElementsByClassName('combat-feature')
+      //   console.log(elementList)
+      //   var barLengthsArray = []
+
+      //   var e;
+      //   for (e = 0; e < elementList.length; e++) {
+      //     barLengthsArray.push(String(this.features[e].current/this.features[e].max * 100) + '%')
+      //     console.log(barLengthsArray)
+      //   }
+        
+      //   var barLengthsObject = Object.assign({}, barLengthsArray)
+        
+      //   return barLengthsObject
+      // },
+
+//
+
+      displayIndex: function () {
+
+        if (this.featureIncrement >= this.featuresLength) {
+          console.log('return to 0')
+          this.featureIncrement = 0
+        }
+
+        console.log(this.features[this.featureIncrement].name)
+        console.log(this.features[this.featureIncrement].current)
+
+        if (this.features[this.featureIncrement].current === '0') {
+          this.featureIncrement = this.featureIncrement + 1
+          return {display: 'none'}
+        }
+
+        var widthValue = String((Number(this.features[this.featureIncrement].current)/Number(this.features[this.featureIncrement].max))*100) + '%'
+
+        this.featureIncrement = this.featureIncrement + 1
+        console.log('success - ' + widthValue)
+        return {width: widthValue}
+      },
+
       calcSkill: function (stat, skill) {
         return this.posNeg(calcAbilityMod(stat) + this.proficiencyBonus * skill)
       },
@@ -1661,8 +1724,54 @@
         }
         this.hasRunCalcSkills = true
         console.log('Calculated Skills: ' + String(this.hasRunCalcSkills))
+
       }
-    }
+    },
+
+    // created: function () {
+    //   // this.$nextTick(function () {
+
+    //     if (this.featureIncrement >= this.featuresLength) {
+    //       console.log('return to 0')
+    //       this.featureIncrement = 0
+    //     }
+
+    //     console.log(this.features[this.featureIncrement].name)
+    //     console.log(this.features[this.featureIncrement].current)
+
+    //     if (this.features[this.featureIncrement].current === '0') {
+    //       this.featureIncrement = this.featureIncrement + 1
+    //       return {display: 'none'}
+    //     }
+
+    //     var widthValue = String((Number(this.features[this.featureIncrement].current)/Number(this.features[this.featureIncrement].max))*100) + '%'
+
+    //     this.featureIncrement = this.featureIncrement + 1
+    //     console.log('success - ' + widthValue)
+    //     return {width: widthValue}
+
+    //     // var e = 0
+    //     // for (e = 0; e < this.featuresLength; e++) {
+
+    //     //   console.log(this.features[e].name)
+    //     //   console.log(this.features[e].current)
+    //     //   console.log(document.getElementById(e))
+
+    //     //   if (this.features[e].current === '0') {
+    //     //     document.getElementById(String(e)).width = 0
+    //     //     return
+    //     //   }
+
+    //     //   var widthValue = String((Number(this.features[e].current)/Number(this.features[e].max))*100) + '%'
+
+    //     //   console.log('success - ' + widthValue)
+    //     //   document.getElementById(String(e)).width = widthValue
+
+    //     // }
+    //     // return
+
+    //   // })
+    // }
   })
 </script>
 
@@ -2422,7 +2531,7 @@
     font-size: 1rem
   }
 
-  /* Attacks, Spells and Skills */
+  /* Features, Attacks, Spells and Skills */
 
   .attacks-and-spells {
     display: flex;
@@ -2472,7 +2581,7 @@
     color: white;
   }
 
-  .attack-list, .save-list, .item-list {
+  .combat-list, .save-list, .item-list {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -2481,12 +2590,12 @@
     overflow: auto;
   }
 
-  .attack-list::-webkit-scrollbar-track, .item-list::-webkit-scrollbar-track {
+  .combat-list::-webkit-scrollbar-track, .item-list::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px #00000030;
     box-shadow: inset 0 0 6px #00000030;
   }
 
-  .attack-list::-webkit-scrollbar-thumb, .item-list::-webkit-scrollbar-thumb {
+  .combat-list::-webkit-scrollbar-thumb, .item-list::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
@@ -2500,21 +2609,21 @@
     max-height: 100%;
   }
 
-  .attack-list::-webkit-scrollbar, .item-list::-webkit-scrollbar {
+  .combat-list::-webkit-scrollbar, .item-list::-webkit-scrollbar {
     width: 1em;
   }
   
-  .attack-list::-webkit-scrollbar-track .item-list::-webkit-scrollbar-track {
+  .combat-list::-webkit-scrollbar-track .item-list::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px #00000030;
     box-shadow: inset 0 0 6px #00000030;
   }
   
-  .attack-list::-webkit-scrollbar-thumb .item-list::-webkit-scrollbar-thumb {
+  .combat-list::-webkit-scrollbar-thumb .item-list::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
 
-  .attack, .save {
+  .combat, .save {
     display: flex;
     flex-grow: 1;
     align-items: center;
@@ -2523,7 +2632,7 @@
     text-align: center;
   }
 
-  .attack {
+  .combat {
     min-height: 30px;
     flex-grow: unset;
   }
@@ -2578,10 +2687,10 @@
     text-align: left;
   }
 
-  .attack:nth-child(even), .save:nth-child(even), .skill:nth-child(even), .item:nth-child(even) {
+  .combat:nth-child(even), .save:nth-child(even), .skill:nth-child(even), .item:nth-child(even) {
     background-color: #525050;
   }
-  .attack:nth-child(odd), .save:nth-child(odd), .skill:nth-child(odd), .item:nth-child(odd) {
+  .combat:nth-child(odd), .save:nth-child(odd), .skill:nth-child(odd), .item:nth-child(odd) {
     background-color: #444444;
   }
 
@@ -2603,18 +2712,40 @@
     background-color: rgba(0,0,0,0.8);
   }
 
-  .attack-text, .item-text {
+  .combat-text, .item-text {
     display: flex;
     flex-grow: 1;
     justify-content: space-around;
+    align-items: center;
   }
 
-  .attack-text span {
+  .combat-text span {
     width: 22%;
   }
 
-  span.attack-bonus {
+  .attack-bonus {
     width: 35px;
+  }
+
+  .feature-bar-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .feature-bar-container .feature-bar {
+    width: calc(100% - 40px);
+    height: 4px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 6px #00000050;
+    box-shadow: inset 0 0 6px #00000050;
+  }
+
+  .current-stat.feature-stat {
+    width: 50%;
+    border-radius: 2px;
+    background-color: #5165B9;
   }
 
   /* Inventory */

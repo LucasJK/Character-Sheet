@@ -8,9 +8,13 @@
 
 - keeps track of spell slots (similar bar location idea to tracked features)
 
+- exhaustion reset
+
 - die roller with log
     - auto sum
     - reset button
+
+- add edit modals
 
 - keeps track of temporary hit points
 
